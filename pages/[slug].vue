@@ -4,11 +4,70 @@
 
     <div class="grid lg:grid-cols-2 grid-cols-1 gap-10 mt-4">
       <!-- anh -->
-      <div class="col-md-6 shadow-lg rounded-lg overflow-hidden">
-        <img
-          src="https://www.tdm.vn/image/cachewebp/catalog/products/product_ms885dt8/ban-cau-toto-ms885dt8-1-1090x1090.webp"
-          alt=""
-        />
+      <div class="col-md-6 shadow-lg rounded-lg">
+        <div class="relative w-full">
+          <UCarousel
+            ref="carousel"
+            v-slot="{ item }"
+            :items="items"
+            :loop="true"
+            @select="onSelect"
+            class="w-full shadow-lg px-10"
+          >
+            <img :src="item" class="rounded-lg w-full" />
+          </UCarousel>
+
+          <button
+            @click="onClickPrev"
+            class="absolute top-1/2 -left-4 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-black rounded-full p-2 shadow-md transition cursor-pointer"
+          >
+            ◀
+          </button>
+
+          <button
+            @click="onClickNext"
+            class="absolute top-1/2 -right-4 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-black rounded-full p-2 shadow-md transition cursor-pointer"
+          >
+            ▶
+          </button>
+        </div>
+
+        <div class="flex gap-4 mt-4 items-center">
+          <button
+            @click="onThumbPrev"
+            class="p-2 rounded-full bg-white text-black hover:bg-gray-200 cursor-pointer transition"
+            :disabled="thumbScrollIndex === 0"
+          >
+            ◀
+          </button>
+
+          <div class="flex gap-4 overflow-hidden">
+            <div
+              v-for="(item, index) in visibleThumbs"
+              :key="index + thumbScrollIndex"
+              class="w-[96px] h-[96px] opacity-85 hover:opacity-100 transition-opacity cursor-pointer border border-gray-200 rounded-lg"
+              :class="{
+                'opacity-100 border-orange-400':
+                  activeIndex === index + thumbScrollIndex,
+                'border-gray-200': activeIndex !== index + thumbScrollIndex,
+              }"
+              @click="select(index + thumbScrollIndex)"
+            >
+              <img
+                :src="item"
+                class="w-full h-full object-cover border rounded-lg"
+              />
+            </div>
+          </div>
+
+          <button
+            @click="onThumbNext"
+            class="p-2 rounded-full bg-white text-black hover:bg-gray-200 cursor-pointer transition"
+            :disabled="thumbScrollIndex >= items.length - 5"
+          >
+            ▶
+          </button>
+        </div>
       </div>
       <!-- noi dung -->
       <div class="">
@@ -174,17 +233,19 @@
 
     <div class="grid lg:grid-cols-2 grid-cols-1 gap-10 my-4">
       <!-- chi tiet -->
-      <div class="border border-gray-200 rounded-lg shadow p-2">
-        <div class="flex items-center gap-2">
-          <div class="w-4 h-6 bg-orange-500"></div>
+      <div>
+        <div class="border border-gray-200 rounded-lg shadow p-2">
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-6 bg-orange-500"></div>
 
-          <h1 class="text-orange-500 font-bold text-2xl px-3">Chi tiết</h1>
+            <h1 class="text-orange-500 font-bold text-2xl px-3">Chi tiết</h1>
 
-          <div class="flex-1 h-6 bg-gray-200"></div>
-        </div>
+            <div class="flex-1 h-6 bg-gray-200"></div>
+          </div>
 
-        <div class="p-4">
-          <div v-html="product.content"></div>
+          <div class="p-1">
+            <div v-html="product.content"></div>
+          </div>
         </div>
       </div>
 
@@ -673,6 +734,54 @@ const brand = {
     "https://www.tdm.vn/image/cachewebp/catalog/home/logo-toto-212x116.webp",
   slug: "ToTo",
 };
+
+const items = [
+  "https://www.tdm.vn/image/cachewebp/catalog/products/product_ms885dt8/ban-cau-toto-ms885dt8-1-1090x1090.webp",
+  "https://www.tdm.vn/image/cachewebp/catalog/products/product_ms885dt8/toto-ms885dt8-tai-tdm-tuan-duc-1090x1090.webp",
+  "https://www.tdm.vn/image/cachewebp/catalog/products/product_ms885dt8/toto-ms885dt8-showroom-tdm-1090x1090.webp",
+  "https://www.tdm.vn/image/cachewebp/catalog/products/product_ms885dt8/toto-ms885dt8-showroom-tdm-2-1090x1090.webp",
+  "https://www.tdm.vn/image/cachewebp/catalog/products/product_ms885dt8/toto-ms885dt8-showroom-tdm-3-1090x1090.webp",
+  "https://www.tdm.vn/image/cachewebp/catalog/products/product_ms885dt8/toto-ms885dt8-showroom-tdm-6-1090x1090.webp",
+  "https://www.tdm.vn/image/cachewebp/catalog/products/product_ms885dt8/toto-ms885dt8-showroom-tdm-9-1090x1090.webp",
+];
+
+const carousel = useTemplateRef("carousel");
+const activeIndex = ref(0);
+const thumbScrollIndex = ref(0);
+const visibleThumbs = computed(() =>
+  items.slice(thumbScrollIndex.value, thumbScrollIndex.value + 5)
+);
+
+const onThumbNext = () => {
+  if (thumbScrollIndex.value < items.length - 5) {
+    thumbScrollIndex.value++;
+  }
+};
+
+const onThumbPrev = () => {
+  if (thumbScrollIndex.value > 0) {
+    thumbScrollIndex.value--;
+  }
+};
+
+const onClickNext = () => {
+  activeIndex.value = (activeIndex.value + 1) % items.length;
+  carousel.value?.emblaApi?.scrollTo(activeIndex.value);
+};
+
+const onClickPrev = () => {
+  activeIndex.value = (activeIndex.value - 1 + items.length) % items.length;
+  carousel.value?.emblaApi?.scrollTo(activeIndex.value);
+};
+function onSelect(index: number) {
+  activeIndex.value = index;
+}
+
+function select(index: number) {
+  activeIndex.value = index;
+
+  carousel.value?.emblaApi?.scrollTo(index);
+}
 </script>
 
 <style scoped></style>

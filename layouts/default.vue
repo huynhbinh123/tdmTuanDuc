@@ -3,8 +3,8 @@
     <div class="flex flex-col min-h-screen text-white font-sans relative">
       <SiteHeader />
 
-      <main class="flex-grow min-h-screen bg-white pt-[32px]">
-        <div class="items-center gap-2 lg:hidden flex justify-center pb-8">
+      <main class="flex-grow min-h-screen bg-white pt-[16px]">
+        <div class="items-center gap-2 lg:hidden flex justify-center pb-[16px]">
           <UIcon name="material-symbols:call" size="30" class="bg-orange-500" />
           <h3 class="text-black font-medium">
             HOTLINE:

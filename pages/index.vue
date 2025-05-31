@@ -4,32 +4,72 @@
     <div>
       <div class="grid grid-cols-6">
         <div class="col-span-1"></div>
-        <div class="lg:col-span-5 col-span-6 lg:pl-[32px] pl-0">
+        <!-- pc -->
+        <div class="lg:block hidden col-span-5 pl-[32px] mx-8">
           <div class="h-[440px] flex flex-col justify-between">
             <UCarousel
+              ref="carouselPc"
               v-slot="{ item }"
-              :items="items"
-              :index="activeIndex"
-              @update:index="(i) => (activeIndex = i)"
-              class="w-full mx-auto"
+              arrows
               :loop="true"
+              :items="items"
+              :prev="{ onClick: onClickPrev, class: 'cursor-pointer' }"
+              :next="{ onClick: onClickNext, class: 'cursor-pointer' }"
+              class="w-full cursor-pointer"
+              @select="onSelect"
             >
-              <img
-                :src="item"
-                class="w-full h-auto rounded-lg overflow-hidden"
-              />
+              <img :src="item" class="rounded-lg" />
             </UCarousel>
-            <div class="grid lg:grid-cols-4 cols-span-6 gap-4 mt-4">
+
+            <div class="grid grid-cols-4 cols-span-6 gap-4 mt-4">
               <div
                 v-for="(item, index) in nameItems"
                 :key="index"
-                @click="activeIndex = index"
                 :class="[
                   'text-black p-4 text-center flex items-center justify-center shadow cursor-pointer ',
                   activeIndex === index
-                    ? 'border-t-4 border-t-orange-600 font-semibold text-orange-600'
+                    ? 'border-t-4 border-t-orange-600 font-semibold text-orange-600 opacity-100'
                     : 'hover:text-orange hover:border-orange-400',
                 ]"
+                @click="select(index)"
+              >
+                {{ item.name }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- mobile -->
+        <div class="col-span-6 lg:hidden block">
+          <div class="w-full mt-[-30px] flex flex-col justify-between">
+            <UCarousel
+              ref="carouselMb"
+              v-slot="{ item }"
+              arrows
+              class-names
+              :loop="true"
+              :items="items2"
+              :ui="{
+                item: 'basis-[85%] transition-opacity [&:not(.is-snapped)]:opacity-10',
+              }"
+              :prev="{ onClick: onClickPrev }"
+              :next="{ onClick: onClickNext }"
+              @select="onSelect"
+            >
+              >
+              <img :src="item" class="rounded-lg" />
+            </UCarousel>
+
+            <div class="mt-4">
+              <div
+                v-for="(item, index) in nameItems"
+                :key="index"
+                :class="[
+                  'text-black p-4 text-center flex items-center justify-center shadow cursor-pointer ',
+                  activeIndex === index
+                    ? 'border-l-4 border-l-orange-600 font-semibold text-orange-600 opacity-100'
+                    : 'hover:text-orange hover:border-orange-400',
+                ]"
+                @click="select(index)"
               >
                 {{ item.name }}
               </div>
@@ -123,14 +163,35 @@
 
 <script setup>
 import ProductCategoryItem from "~/components/ProductCategoryItem.vue";
+import { useBreakpoints } from "@vueuse/core";
 
+const breakpoints = useBreakpoints({ lg: 1024 });
+const isMobile = breakpoints.smaller("lg");
+
+const carouselPc = useTemplateRef("carouselPc");
+const carouselMb = useTemplateRef("carouselMb");
 const activeIndex = ref(0);
-const items = [
-  "https://www.tdm.vn/image/cachewebp/catalog/banner/km-mua-he-toto-25-dt-1080x360.webp",
-  "https://www.tdm.vn/image/cachewebp/catalog/banner/km-mua-he-25-inax-tdm-dt-1080x360.webp",
-  "https://www.tdm.vn/image/cachewebp/catalog/banner/km-mua-he-as-2025-tdm-dt-1080x360.webp",
-  "https://www.tdm.vn/image/cachewebp/catalog/banner/km-caesar-xuan-2025-dt-1080x360.webp",
-];
+const onClickNext = () => {
+  activeIndex.value = (activeIndex.value + 1) % items.length;
+};
+const onClickPrev = () => {
+  activeIndex.value = (activeIndex.value - 1 + items.length) % items.length;
+};
+
+function select(index) {
+  activeIndex.value = index;
+
+  if (isMobile.value) {
+    carouselMb.value?.emblaApi?.scrollTo(index);
+  } else {
+    carouselPc.value?.emblaApi?.scrollTo(index);
+  }
+}
+
+function onSelect(index) {
+  activeIndex.value = index;
+}
+
 const nameItems = [
   {
     name: "TOTO Khuyến Mãi Hè 2025",
@@ -144,6 +205,19 @@ const nameItems = [
   {
     name: "Khuyến Mãi Ưu Đãi Caesar",
   },
+];
+
+const items = [
+  "https://www.tdm.vn/image/cachewebp/catalog/banner/km-mua-he-toto-25-dt-1080x360.webp",
+  "https://www.tdm.vn/image/cachewebp/catalog/banner/km-mua-he-25-inax-tdm-dt-1080x360.webp",
+  "https://www.tdm.vn/image/cachewebp/catalog/banner/km-mua-he-as-2025-tdm-dt-1080x360.webp",
+  "https://www.tdm.vn/image/cachewebp/catalog/banner/km-caesar-xuan-2025-dt-1080x360.webp",
+];
+const items2 = [
+  "https://www.tdm.vn/image/cachewebp/catalog/banner/km-mua-he-toto-25-mb-750x900.webp",
+  "https://www.tdm.vn/image/cachewebp/catalog/banner/km-mua-he-25-inax-tdm-mb-750x900.webp",
+  "https://www.tdm.vn/image/cachewebp/catalog/banner/km-mua-he-as-2025-tdm-mb-750x900.webp",
+  "https://www.tdm.vn/image/cachewebp/catalog/banner/km-caesar-xuan-2025-mb-750x900.webp",
 ];
 
 const productCategories = [
