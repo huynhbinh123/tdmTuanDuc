@@ -70,8 +70,9 @@
             </NuxtLink>
             <NuxtLink
               to="/thanh-toan"
-              class="block bg-orange-500 text-white text-center py-2 rounded hover:bg-orange-600 font-semibold lg:min-w-[200px] min-w-[100px]"
+              class="flex justify-center items-center gap-2 bg-orange-500 text-white text-center py-2 rounded hover:bg-orange-600 font-semibold lg:min-w-[200px] min-w-[100px]"
             >
+              <UIcon name="material-symbols:credit-card" />
               Thanh toán
             </NuxtLink>
           </div>
