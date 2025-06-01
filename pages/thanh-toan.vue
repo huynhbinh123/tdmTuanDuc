@@ -3,87 +3,184 @@
     <!-- Breadcrumb -->
     <Breadcrumb :items="[{ name: 'Đặt hàng' }]" />
 
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-6">
-      <form @submit.prevent="handleSubmit">
-        <div v-for="group in userForm" :key="group.group" class="space-y-6">
-          <div>
-            <div
-              class="flex justify-between border-l-3 border-blue-400 items-center bg-gray-100 p-2"
-              :class="{
-                'mt-3': group.group === 'Thông tin thanh toán',
-                'mt-0': group.group !== 'Thông tin thanh toán',
-              }"
-            >
-              <h3 class="text-black font-bold text-sm gap-2 uppercase">
-                {{ group.group }}
-              </h3>
-              <UIcon :name="group.icon" class="text-black" size="20" />
-            </div>
-            <!--  -->
-            <div v-if="group.buttons" class="mt-4 flex gap-2 flex-1 r">
-              <div class="flex-1">
-                <Button
-                  class="w-full bg-gray-200 p-1 text-gray-500 cursor-pointer"
-                >
-                  {{ group.buttons[0].login }}
-                </Button>
-              </div>
-              <div class="flex-1">
-                <Button
-                  class="w-full bg-orange-400 p-1 text-white cursor-pointer"
-                >
-                  {{ group.buttons[0].guest }}
-                </Button>
-              </div>
-            </div>
+    <form @submit.prevent="handleSubmit" class="lg:flex gap-10 mt-6">
+      <div class="lg:w-[30%] space-y-6">
+        <div
+          v-for="group in leftForm.filter(
+            (g) => g.group !== 'xác nhận đơn hàng'
+          )"
+          :key="group.group"
+        >
+          <div
+            class="flex justify-between border-l-3 border-blue-400 items-center bg-gray-100 p-2"
+            :class="{
+              'mt-3': group.group === 'Thông tin thanh toán',
+              'mt-0': group.group !== 'Thông tin thanh toán',
+            }"
+          >
+            <h3 class="text-black font-bold text-sm gap-2 uppercase">
+              {{ group.group }}
+            </h3>
+            <UIcon :name="group.icon" class="text-black" size="20" />
+          </div>
 
-            <!-- Các input field -->
-            <div v-for="field in group.fields" :key="field.model" class="mt-3">
-              <div class="flex">
-                <h3 class="text-black/80">{{ field.label }}</h3>
-                <span v-if="field.required" class="text-red-500 ms-2">*</span>
-              </div>
-              <Input
+          <div v-if="group.buttons" class="mt-4 flex gap-2">
+            <button
+              type="button"
+              @click="toggleLogin"
+              :class="[
+                'flex-1 p-1 cursor-pointer',
+                isLogin
+                  ? 'bg-orange-500 text-white'
+                  : 'bg-gray-200 text-gray-500',
+              ]"
+            >
+              {{ group.buttons[0].login }}
+            </button>
+            <button
+              type="button"
+              @click="toggleGuest"
+              :class="[
+                'flex-1 p-1 cursor-pointer',
+                !isLogin
+                  ? 'bg-orange-500 text-white'
+                  : 'bg-gray-200 text-gray-500',
+              ]"
+            >
+              {{ group.buttons[0].guest }}
+            </button>
+          </div>
+
+          <template
+            v-for="field in group.fields"
+            :key="field.model ?? field.forgot"
+          >
+            <!-- Hiển thị các input như Email / Mật khẩu -->
+            <div
+              class="mt-3"
+              v-if="field.model"
+              v-show="field.model !== 'password' || isLogin"
+            >
+              <label :for="field.model" class="block text-black/80">
+                {{ field.label }}
+                <span v-if="field.required" class="text-red-500 ms-1">*</span>
+              </label>
+              <input
                 :type="field.type"
                 :id="field.model"
                 v-model="formData[field.model as FormField]"
                 :placeholder="field.placeholder"
                 :required="field.required"
-                class="w-full bg-gray-100 text-black/70 p-1"
+                class="w-full bg-gray-100 text-black/70 p-1 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
               />
             </div>
-          </div>
-        </div>
-      </form>
-      <!-- Cột phải -->
-      <div class="col-span-3 space-y-6">
-        <!-- Xác nhận đơn hàng -->
-        <div class="border border-gray-300 rounded-md p-4">
-          <h3 class="font-bold text-sm border-b pb-2">Xác nhận đơn hàng</h3>
-          <div class="mt-4 space-y-2">
-            <p><strong>Sản phẩm:</strong> Nắp Bồn Cầu Rửa Cơ INAX CW-S32VN</p>
-            <p>- Mã SP: CW-S32VN</p>
-            <div class="flex justify-between mt-2">
-              <span>Số lượng</span>
-              <div class="flex items-center gap-1">
-                <UButton size="sm" icon="i-heroicons-chevron-down" />
-                <span>1</span>
-                <UButton size="sm" icon="i-heroicons-chevron-up" />
-              </div>
-              <span>2.130.000 đ</span>
-              <span>= 2.130.000 đ</span>
+
+            <!-- Chỉ hiển thị quên mật khẩu và nút đăng nhập khi isLogin = true -->
+            <div class="mt-3 flex flex-col" v-if="field.forgot && isLogin">
+              <NuxtLink to="/forgot" class="flex justify-end -mt-2">
+                <span class="text-orange-600">{{ field.forgot }}</span>
+              </NuxtLink>
+
+              <UButton
+                @click="handleLogin"
+                class="bg-orange-500 text-white cursor-pointer hover:bg-orange-400 w-full p-3 flex justify-center uppercase mt-2"
+              >
+                Đăng nhập
+              </UButton>
             </div>
-            <div class="text-right font-semibold mt-2">Tổng: 2.130.000 đ</div>
-            <UTextarea class="mt-4" placeholder="Ghi chú thêm cho đơn hàng" />
+          </template>
+        </div>
+      </div>
+
+      <div class="lg:w-[70%] space-y-6">
+        <!-- 1. Xác nhận đơn hàng -->
+        <div v-if="orderSummaryGroup" class="mt-4">
+          <div
+            class="flex justify-between border-l-3 border-blue-400 items-center bg-gray-100 p-2"
+          >
+            <h3 class="text-black font-bold text-sm gap-2 uppercase">
+              {{ orderSummaryGroup.group }}
+            </h3>
+            <UIcon
+              :name="orderSummaryGroup.icon || ''"
+              class="text-black"
+              size="20"
+            />
+          </div>
+
+          <div
+            class="mt-4 space-y-2 lg:flex items-center justify-between gap-4 bg-gray-100 p-2"
+            v-for="(product, index) in orderSummaryGroup.products"
+            :key="index"
+          >
+            <div>
+              <p class="text-black">{{ product.title }}</p>
+              <p class="text-gray-500">{{ product.desc }}</p>
+            </div>
+            <div class="flex items-center mt-2 gap-4">
+              <div class="flex items-center gap-1">
+                <UButton
+                  size="sm"
+                  icon="i-heroicons-minus"
+                  class="text-black"
+                  @click="decreaseQuantity(product)"
+                />
+                <span class="text-black">{{ product.quantity }}</span>
+                <UButton
+                  size="sm"
+                  icon="i-heroicons-plus"
+                  class="text-black"
+                  @click="increaseQuantity(product)"
+                />
+              </div>
+              <span class="text-black"
+                >{{ product.price.toLocaleString() }}đ</span
+              >
+              <span class="text-black font-semibold whitespace-nowrap">
+                Tổng: {{ product.totalPrice.toLocaleString() }}đ
+              </span>
+              <span>
+                <UIcon
+                  name="material-symbols:close-rounded"
+                  @click="removeProduct(index)"
+                  class="text-black text-2xl cursor-pointer hover:text-black/50"
+                />
+              </span>
+            </div>
+          </div>
+          <div class="flex justify-end mt-4">
+            <span class="flex gap-2 items-center text-lg font-semibold">
+              <span class="text-black">Tổng số tiền:</span>
+              <span class="text-orange-600"
+                >{{ totalOrderAmount.toLocaleString() }}đ</span
+              >
+            </span>
           </div>
         </div>
 
-        <!-- Hướng dẫn chuyển khoản -->
-        <div class="border border-gray-300 rounded-md p-4">
-          <h3 class="font-bold text-sm border-b pb-2">
-            Hướng dẫn chuyển khoản ngân hàng
-          </h3>
-          <p class="mt-2 text-sm leading-relaxed">
+        <!-- 2. Ghi chú thêm cho đơn hàng -->
+        <div class="mt-6 border-t border-dashed border-gray-400">
+          <p class="text-black font-bold mt-4">Ghi chú thêm cho đơn hàng</p>
+          <UTextarea
+            class="w-full"
+            placeholder="Nhập ghi chú thêm cho đơn hàng"
+            :ui="{
+              base: 'bg-gray-100',
+            }"
+          />
+        </div>
+
+        <!-- 3. Hướng dẫn chuyển khoản -->
+
+        <div v-if="bankInfoGroup" class="mt-4">
+          <div
+            class="flex justify-between border-l-3 border-blue-400 items-center bg-gray-100 p-2"
+          >
+            <h3 class="text-black font-bold text-sm gap-2 uppercase">
+              {{ bankInfoGroup.group }}
+            </h3>
+          </div>
+          <p class="text-sm text-black leading-relaxed mt-2">
             Ngân hàng Ngoại thương Vietcombank<br />
             Tên tài khoản: Doanh nghiệp tư nhân thương mại dịch vụ Tuấn Đức<br />
             Số tài khoản: 0461003764572<br />
@@ -91,19 +188,51 @@
           </p>
         </div>
 
-        <!-- Đặt hàng -->
-        <div class="flex items-center justify-between mt-4">
-          <UCheckbox label="Tôi đã đọc và đồng ý với Các câu hỏi thường gặp" />
-          <UButton>Đặt hàng</UButton>
+        <!-- 4. Đặt hàng -->
+        <div class="flex items-center justify-between my-4">
+          <UCheckbox
+            label="Tôi đã đọc và đồng ý với Các câu hỏi thường gặp"
+            :ui="{ label: 'text-black cursor-pointer' }"
+          />
+
+          <UButton
+            type="submit"
+            class="bg-orange-500 text-white cursor-pointer hover:bg-orange-400 w-[200px] p-3 flex justify-center uppercase"
+            >Đặt hàng
+          </UButton>
         </div>
       </div>
-    </div>
+    </form>
   </UContainer>
 </template>
 
 <script setup lang="ts">
-import type { RadioGroupItem } from "@nuxt/ui";
-const userForm = [
+const isLogin = ref(false);
+
+const toggleLogin = () => {
+  isLogin.value = true;
+};
+const toggleGuest = () => {
+  isLogin.value = false;
+};
+
+type LeftFormField = {
+  label?: string;
+  model?: string;
+  placeholder?: string;
+  type?: string;
+  required?: boolean;
+  forgot?: string;
+};
+
+type LeftFormGroup = {
+  group: string;
+  icon: string;
+  buttons?: { login: string; guest: string }[];
+  fields?: LeftFormField[];
+};
+
+const leftForm: LeftFormGroup[] = [
   {
     group: "Đăng nhập",
     icon: "material-symbols:person-rounded",
@@ -115,6 +244,16 @@ const userForm = [
         placeholder: "Nhập e-mail",
         type: "email",
         required: true,
+      },
+      {
+        label: "Mật khẩu",
+        model: "password",
+        placeholder: "Nhập mật khẩu",
+        type: "password",
+        required: true,
+      },
+      {
+        forgot: "Quên mật khẩu",
       },
     ],
   },
@@ -145,26 +284,91 @@ const userForm = [
       },
     ],
   },
+  {
+    group: "xác nhận đơn hàng",
+    icon: "material-symbols:shopping-cart",
+  },
 ];
 
-type FormField =
-  | "firstName"
-  | "lastName"
-  | "email"
-  | "phone"
-  | "password"
-  | "confirmPassword";
+const rightForm = ref([
+  {
+    group: "Xác nhận đơn hàng",
+    icon: "material-symbols:shopping-cart",
+    type: "orderSummary",
+    products: reactive([
+      {
+        title: "Chậu Rửa Lavabo Inax AL-2298V (AL2298V) Âm Bàn AquaCeramic",
+        desc: " - Mã sản phẩm: AL-2298V",
+        quantity: 2,
+        price: 2040000,
+        get totalPrice() {
+          return this.quantity * this.price;
+        },
+      },
+      {
+        title: "Chậu Rửa Lavabo Inax AL-2298V (AL2298V) Âm Bàn AquaCeramic",
+        desc: " - Mã sản phẩm: AL-2298V",
+        quantity: 1,
+        price: 2040000,
+        get totalPrice() {
+          return this.quantity * this.price;
+        },
+      },
+    ]),
+  },
+  {
+    group: "Hướng dẫn chuyển khoản",
+    type: "bankInfo",
+  },
+]);
+
+const orderSummaryGroup = computed(() =>
+  rightForm.value.find((group) => group.type === "orderSummary")
+);
+
+const increaseQuantity = (product: any) => {
+  product.quantity++;
+};
+
+const decreaseQuantity = (product: any) => {
+  if (product.quantity > 1) product.quantity--;
+};
+
+const bankInfoGroup = rightForm.value.find(
+  (group) => group.type === "bankInfo"
+);
+
+type FormField = "firstName" | "email" | "phone" | "password";
 
 const formData = reactive<Record<FormField, string>>({
   firstName: "",
-  lastName: "",
   email: "",
   phone: "",
   password: "",
-  confirmPassword: "",
 });
 
 const handleSubmit = () => {
   console.log("Dữ liệu form:", formData);
 };
+
+const handleLogin = () => {
+  const loginData = {
+    email: formData.email,
+    password: formData.password,
+  };
+  console.log("Dữ liệu đăng nhập:", loginData);
+};
+
+const totalOrderAmount = computed(() => {
+  const group = orderSummaryGroup.value;
+  if (!group || !group.products) return 0;
+  return group.products.reduce((sum, p) => sum + p.totalPrice, 0);
+});
+const removeProduct = (index: number) => {
+  if (orderSummaryGroup.value?.products) {
+    orderSummaryGroup.value.products.splice(index, 1);
+  }
+};
 </script>
+
+<style scoped></style>
