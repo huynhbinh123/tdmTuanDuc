@@ -85,17 +85,17 @@
             />
           </NuxtLink>
         </div>
-        <div class="flex text-black/80 gap-4">
+        <div class="flex items-center text-black/80 gap-4">
           <UIcon
             name="material-symbols:search-rounded"
             class="p-4 cursor-pointer"
             @click="showSearch = true"
           />
-          <NuxtLink to="/dang-nhap">
+          <NuxtLink to="/dang-nhap" class="flex items-center">
             <UIcon name="material-symbols:account-circle" class="p-4" />
           </NuxtLink>
 
-          <NuxtLink to="/gio-hang"
+          <NuxtLink to="/gio-hang" class="flex items-center"
             ><UIcon name="material-symbols:shopping-cart-rounded" class="p-4"
           /></NuxtLink>
         </div>

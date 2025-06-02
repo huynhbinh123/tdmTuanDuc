@@ -7,6 +7,8 @@
       <p class="text-black/80">
         Nếu bạn đã đăng ký tài khoản, vui lòng đăng nhập
         <NuxtLink to="dang-nhap" class="text-orange-400">Tại Đây.</NuxtLink>
+        <p class="text-black/80">
+        <span class="text-black/80 font-bold">Lưu ý:</span> Các mục dấu sao <span class="text-black/80 font-bold">màu đỏ</span> không được bỏ trống & phải điền đầy đủ, chính xác</p>
       </p>
 
       <form @submit.prevent="handleSubmit">
@@ -38,7 +40,7 @@
         </div>
         <button
           type="submit"
-          class="bg-orange-500 text-white px-4 py-2 rounded"
+          class="bg-orange-500 text-white px-4 py-2 rounded cursor-pointer"
         >
           Lưu
         </button>

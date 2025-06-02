@@ -13,14 +13,14 @@
       </div>
 
       <form @submit.prevent="submitEmail" class="pt-4">
-        <div class="flex justify-end items-center gap-3">
+        <div class="lg:flex justify-end items-center gap-3">
           <h1 class="text-black whitespace-nowrap">Địa chỉ E-Mail:</h1>
           <UInput
             trailing-icon="i-lucide-at-sign"
             placeholder="E-mail của bạn"
             v-model="form.email"
             size="xl"
-            class="w-[80%]"
+            class="lg:w-[80%] w-full"
             :ui="{ base: 'bg-white text-black' }"
           />
         </div>
