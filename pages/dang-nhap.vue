@@ -3,10 +3,10 @@
     <div><Breadcrumb :items="[{ name: 'Đăng nhập' }]" /></div>
 
     <div class="grid lg:grid-cols-2 gap-6 mt-4 items-start">
-      <!-- khách hàng mới -->
+      <!-- Khách hàng mới -->
       <div class="flex flex-col bg-gray-100 rounded-lg text-black gap-2 p-6">
         <h2 class="text-3xl">Khách hàng mới</h2>
-        <h3 class="">Đăng kí tài khoản</h3>
+        <h3>Đăng kí tài khoản</h3>
         <p class="text-black/70">
           Bằng cách tạo tài khoản bạn sẽ có thể mua sắm nhanh hơn, cập nhật tình
           trạng đơn hàng, theo dõi những đơn hàng đã đặt.
@@ -16,72 +16,109 @@
             class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded shadow font-semibold cursor-pointer w-[100px]"
           >
             Tiếp tục
-          </UButton></NuxtLink
-        >
+          </UButton>
+        </NuxtLink>
       </div>
 
-      <!-- khác hàng cũ -->
+      <!-- Khách hàng cũ -->
       <div class="flex flex-col bg-gray-100 rounded-lg text-black gap-4 p-6">
         <h2 class="text-3xl">Khách hàng cũ</h2>
-        <h3 class="">Tôi đã có tài khoản</h3>
-        <div>
-          <h1>Địa chỉ E-Mail:</h1>
-          <UInput
-            trailing-icon="i-lucide-at-sign"
-            placeholder="E-mail của bạn"
-            v-model="form.email"
-            size="xl"
-            class="w-full"
-            :ui="{
-              base: 'bg-white',
-            }"
-          />
-        </div>
-        <div>
-          <h1>Mật khẩu:</h1>
-          <UInput
-            v-model="form.password"
-            size="xl"
-            placeholder="Mật khẩu"
-            :type="show ? 'text' : 'password'"
-            :ui="{
-              base: 'bg-white text-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 ',
-              trailing: 'pe-1',
-            }"
-            class="w-full"
-          >
-            <template #trailing>
-              <UButton
-                color="neutral"
-                variant="link"
-                size="sm"
-                :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
-                :aria-label="show ? 'Hide password' : 'Show password'"
-                :aria-pressed="show"
-                aria-controls="password"
-                @click="show = !show"
-              />
-            </template>
-          </UInput>
-          <NuxtLink to="/" class="text-blue-400">Quên mật khẩu</NuxtLink>
-        </div>
+        <h3>Tôi đã có tài khoản</h3>
 
-        <UButton
-          class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded shadow font-semibold cursor-pointer w-[100px]"
+        <UForm
+          ref="formRef"
+          :state="form"
+          :schema="schema"
+          @submit="handleSubmit"
         >
-          Tiếp tục
-        </UButton>
+          <!-- Email -->
+          <UFormGroup label="Địa chỉ E-Mail:" name="email">
+            <UInput
+              type="email"
+              autocomplete="email"
+              v-model="form.email"
+              placeholder="E-mail của bạn"
+              size="xl"
+              trailing-icon="i-lucide-at-sign"
+              class="w-full"
+              :ui="{ base: 'bg-white text-black' }"
+            />
+          </UFormGroup>
+
+          <!-- Password -->
+          <UFormGroup label="Mật khẩu:" name="password" class="mt-4">
+            <UInput
+              :type="show ? 'text' : 'password'"
+              v-model="form.password"
+              autocomplete="current-password"
+              placeholder="Mật khẩu"
+              size="xl"
+              class="w-full mt-4"
+              @keyup.enter="formRef?.submit()"
+              :ui="{
+                base: 'bg-white text-gray-700 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500',
+                trailing: 'pe-1',
+              }"
+            >
+              <template #trailing>
+                <UButton
+                  color="neutral"
+                  variant="link"
+                  size="sm"
+                  class="cursor-pointer"
+                  :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                  :aria-label="show ? 'Hide password' : 'Show password'"
+                  @click.prevent="show = !show"
+                />
+              </template>
+            </UInput>
+          </UFormGroup>
+
+          <NuxtLink to="/forgot"
+            ><p class="text-orange-400 block mt-2 hover:text-orange-300">
+              Quên mật khẩu
+            </p>
+          </NuxtLink>
+
+          <UButton
+            type="submit"
+            class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded shadow font-semibold mt-6 cursor-pointer whitespace-nowrap"
+          >
+            Đăng nhập
+          </UButton>
+        </UForm>
       </div>
     </div>
   </UContainer>
 </template>
 
 <script lang="ts" setup>
+import { ref, reactive, onMounted } from "vue";
+import { useRoute } from "vue-router";
+import { z } from "zod";
+
 const show = ref(false);
+const formRef = ref();
+
+const route = useRoute();
+
 const form = reactive({
   email: "",
   password: "",
 });
-</script>
 
-<style></style>
+const schema = z.object({
+  email: z.string().min(1, "Vui lòng nhập email").email("Email không hợp lệ"),
+  password: z.string().min(6, "Mật khẩu phải ít nhất 6 ký tự"),
+});
+
+const handleSubmit = async () => {
+  console.log("Form hợp lệ:", form);
+};
+
+onMounted(() => {
+  if (route.query.email && typeof route.query.email === "string") {
+    form.email = route.query.email;
+  }
+});
+</script>

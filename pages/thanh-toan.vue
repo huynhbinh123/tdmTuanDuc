@@ -56,53 +56,57 @@
             :key="field.model ?? field.forgot"
           >
             <!-- Hiển thị các input như Email / Mật khẩu -->
-            <div
-              class="mt-3"
-              v-if="field.model"
-              v-show="field.model !== 'password' || isLogin"
-            >
-              <label :for="field.model" class="block text-black/80">
-                {{ field.label }}
-                <span v-if="field.required" class="text-red-500 ms-1">*</span>
-              </label>
-              <input
-                :type="field.type"
-                :id="field.model"
-                v-model="formData[field.model as FormField]"
-                :placeholder="field.placeholder"
-                :required="field.required"
-                class="w-full bg-gray-100 text-black/70 p-1 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
-              />
-            </div>
+            <Transition name="slide-down" mode="out-in">
+              <div
+                class="mt-3"
+                v-if="field.model && (field.model !== 'password' || isLogin)"
+              >
+                <label :for="field.model" class="block text-black/80">
+                  {{ field.label }}
+                  <span v-if="field.required" class="text-red-500 ms-1">*</span>
+                </label>
+                <input
+                  :type="field.type"
+                  :id="field.model"
+                  :name="field.model"
+                  v-model="formData[field.model as FormField]"
+                  :placeholder="field.placeholder"
+                  :required="field.required"
+                  class="w-full bg-gray-100 text-black/70 p-1 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
+                />
+              </div>
+            </Transition>
 
             <!-- Chỉ hiển thị quên mật khẩu và nút đăng nhập khi isLogin = true -->
-            <div class="mt-3 flex flex-col" v-if="field.forgot && isLogin">
-              <NuxtLink to="/forgot" class="flex justify-end -mt-2">
-                <span class="text-orange-600">{{ field.forgot }}</span>
-              </NuxtLink>
+            <Transition name="slide-down" mode="out-in">
+              <div class="mt-3 flex flex-col" v-if="field.forgot && isLogin">
+                <NuxtLink to="/forgot" class="flex justify-end -mt-2">
+                  <span class="text-orange-600">{{ field.forgot }}</span>
+                </NuxtLink>
 
-              <UButton
-                @click="handleLogin"
-                class="bg-orange-500 text-white cursor-pointer hover:bg-orange-400 w-full p-3 flex justify-center uppercase mt-2"
-              >
-                Đăng nhập
-              </UButton>
-            </div>
+                <UButton
+                  @click="handleLogin"
+                  class="bg-orange-500 text-white cursor-pointer hover:bg-orange-400 w-full p-3 flex justify-center uppercase mt-2"
+                >
+                  Đăng nhập
+                </UButton>
+              </div>
+            </Transition>
           </template>
         </div>
       </div>
 
       <div class="lg:w-[70%] space-y-6">
         <!-- 1. Xác nhận đơn hàng -->
-        <div v-if="orderSummaryGroup" class="mt-4">
+        <div v-if="(orderSummaryGroup?.products?.length ?? 0) > 0" class="mt-4">
           <div
             class="flex justify-between border-l-3 border-blue-400 items-center bg-gray-100 p-2"
           >
             <h3 class="text-black font-bold text-sm gap-2 uppercase">
-              {{ orderSummaryGroup.group }}
+              {{ orderSummaryGroup?.group }}
             </h3>
             <UIcon
-              :name="orderSummaryGroup.icon || ''"
+              :name="orderSummaryGroup?.icon || ''"
               class="text-black"
               size="20"
             />
@@ -110,10 +114,10 @@
 
           <div
             class="mt-4 space-y-2 lg:flex items-center justify-between gap-4 bg-gray-100 p-2"
-            v-for="(product, index) in orderSummaryGroup.products"
+            v-for="(product, index) in orderSummaryGroup?.products"
             :key="index"
           >
-            <div>
+            <div class="">
               <p class="text-black">{{ product.title }}</p>
               <p class="text-gray-500">{{ product.desc }}</p>
             </div>
@@ -122,14 +126,14 @@
                 <UButton
                   size="sm"
                   icon="i-heroicons-minus"
-                  class="text-black"
+                  class="text-black cursor-pointer"
                   @click="decreaseQuantity(product)"
                 />
                 <span class="text-black">{{ product.quantity }}</span>
                 <UButton
                   size="sm"
                   icon="i-heroicons-plus"
-                  class="text-black"
+                  class="text-black cursor-pointer"
                   @click="increaseQuantity(product)"
                 />
               </div>
@@ -157,6 +161,16 @@
             </span>
           </div>
         </div>
+        <div v-else class="flex flex-col justify-center mt-4 text-center">
+          <h2 class="text-black/80 py-4">Không có sản phẩm trong giỏ hàng!</h2>
+          <NuxtLink to="/">
+            <UButton
+              class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded shadow font-semibold cursor-pointer w-[120px] text-center"
+            >
+              <span class="mx-auto">Tiếp tục</span>
+            </UButton>
+          </NuxtLink>
+        </div>
 
         <!-- 2. Ghi chú thêm cho đơn hàng -->
         <div class="mt-6 border-t border-dashed border-gray-400">
@@ -164,8 +178,9 @@
           <UTextarea
             class="w-full"
             placeholder="Nhập ghi chú thêm cho đơn hàng"
+            v-model="orderNote"
             :ui="{
-              base: 'bg-gray-100',
+              base: 'bg-gray-100 text-black',
             }"
           />
         </div>
@@ -191,6 +206,7 @@
         <!-- 4. Đặt hàng -->
         <div class="flex items-center justify-between my-4">
           <UCheckbox
+            v-model="isAgreed"
             label="Tôi đã đọc và đồng ý với Các câu hỏi thường gặp"
             :ui="{ label: 'text-black cursor-pointer' }"
           />
@@ -208,6 +224,9 @@
 
 <script setup lang="ts">
 const isLogin = ref(false);
+const orderNote = ref("");
+const isAgreed = ref(false);
+const toast = useToast();
 
 const toggleLogin = () => {
   isLogin.value = true;
@@ -346,9 +365,25 @@ const formData = reactive<Record<FormField, string>>({
   phone: "",
   password: "",
 });
-
 const handleSubmit = () => {
-  console.log("Dữ liệu form:", formData);
+  if (!isAgreed.value) {
+    toast.add({
+      title: "Vui lòng đồng ý với điều khoản",
+      description:
+        'Bạn cần tick vào "Tôi đã đọc và đồng ý với Các câu hỏi thường gặp" để tiếp tục.',
+      color: "error",
+      icon: "i-heroicons-exclamation-triangle",
+    });
+    return;
+  }
+  const orderData = {
+    ...formData,
+    note: orderNote.value,
+    products: orderSummaryGroup.value?.products || [],
+    totalAmount: totalOrderAmount.value,
+  };
+
+  console.log("Dữ liệu đặt hàng:", orderData);
 };
 
 const handleLogin = () => {
@@ -371,4 +406,17 @@ const removeProduct = (index: number) => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.slide-down-enter-active,
+.slide-down-leave-active {
+  transition: all 0.4s ease;
+}
+.slide-down-enter-from {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+.slide-down-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+</style>

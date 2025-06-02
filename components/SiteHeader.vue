@@ -78,10 +78,12 @@
             </template>
           </USlideover>
 
-          <img
-            src="https://www.tdm.vn/image/catalog/global/logo.svg"
-            class="w-[100px]"
-          />
+          <NuxtLink to="/">
+            <img
+              src="https://www.tdm.vn/image/catalog/global/logo.svg"
+              class="w-[100px]"
+            />
+          </NuxtLink>
         </div>
         <div class="flex text-black/80 gap-4">
           <UIcon

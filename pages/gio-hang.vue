@@ -45,7 +45,7 @@
                   </td>
                   <td class="p-2 border text-center">
                     <button
-                      class="text-red-500 hover:underline hover:text-red-400"
+                      class="text-red-500 hover:underline hover:text-red-400 cursor-pointer"
                       @click="removeFromCart(idx)"
                     >
                       Xóa
@@ -70,7 +70,7 @@
             </NuxtLink>
             <NuxtLink
               to="/thanh-toan"
-              class="flex justify-center items-center gap-2 bg-orange-500 text-white text-center py-2 rounded hover:bg-orange-600 font-semibold lg:min-w-[200px] min-w-[100px]"
+              class="flex justify-center items-center gap-2 bg-orange-500 text-white text-center py-2 rounded hover:bg-orange-600 font-semibold lg:min-w-[200px] min-w-[150px]"
             >
               <UIcon name="material-symbols:credit-card" />
               Thanh toán

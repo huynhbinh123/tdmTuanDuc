@@ -155,7 +155,7 @@
 
           <!-- nút mua ngay -->
           <UButton
-            class="flex items-center justify-center bg-orange-500 text-white font-bold px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors lg:min-w-[250px] min-w-full"
+            class="flex items-center justify-center bg-orange-500 text-white font-bold px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors lg:min-w-[250px] min-w-full cursor-pointer"
           >
             <UIcon name="material-symbols:check" class="w-6 h-6 mr-2" />
             Mua Ngay
