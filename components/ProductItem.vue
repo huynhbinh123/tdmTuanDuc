@@ -28,7 +28,7 @@
             </div>
             <div>
               <div class="bg-orange-400 text-white px-4 py-2 rounded-3xl">
-                -50%
+                {{ discountPercent }}
               </div>
             </div>
           </div>
@@ -38,32 +38,25 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-defineProps({
-  name: {
-    type: String,
-    default: "",
-  },
-  description: {
-    type: String,
-    default: "",
-  },
-  image: {
-    type: String,
-    default: "",
-  },
-  slug: {
-    type: String,
-    default: "",
-  },
-  price: {
-    type: Number,
-    default: 0,
-  },
-  price_old: {
-    type: Number,
-    default: 0,
-  },
+<script setup lang="ts">
+const props = defineProps({
+  name: { type: String, default: "" },
+  description: { type: String, default: "" },
+  image: { type: String, default: "" },
+  slug: { type: String, default: "" },
+  price: { type: Number, default: 0 },
+  price_old: { type: Number, default: 0 },
+  discountPercent: { type: Number, default: 0 },
+});
+
+const discountPercent = computed(() => {
+  if (props.price_old && props.price_old > props.price) {
+    const percent = Math.round(
+      ((props.price_old - props.price) / props.price_old) * 100
+    );
+    return `-${percent}%`;
+  }
+  return null;
 });
 </script>
 

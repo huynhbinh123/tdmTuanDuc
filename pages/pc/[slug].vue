@@ -107,6 +107,7 @@
           :price="item.price"
           :price_old="item.price_old"
           :description="item.description"
+          :discountPercent="item.discountPercent"
         />
       </div>
     </div>
@@ -114,7 +115,17 @@
     <!-- trang -->
 
     <div class="flex justify-center py-6">
-      <UPagination v-model:page="page" :total="100" />
+      <UPagination
+        v-model:page="page"
+        :total="100"
+        :ui="{
+          item: 'hover:bg-[#f89e1b] hover:text-white cursor-pointer',
+          first: 'hover:bg-[#f89e1b] hover:text-white cursor-pointer',
+          prev: 'hover:bg-[#f89e1b] hover:text-white cursor-pointer',
+          next: 'hover:bg-[#f89e1b] hover:text-white cursor-pointer',
+          last: 'hover:bg-[#f89e1b] hover:text-white cursor-pointer',
+        }"
+      />
     </div>
 
     <div class="flex flex-col justify-center items-center mt-8 gap-2">
@@ -136,7 +147,7 @@
 <script lang="ts" setup>
 const page = ref(1);
 const category = {
-  name: "TO To",
+  name: "TO TO",
   childCategories: [
     {
       name: "Bồn cầu",
@@ -203,6 +214,7 @@ const category = {
       slug: "bon-cau-toto",
       price: 1000000,
       price_old: 2000000,
+      discountPercent: undefined,
     },
     {
       name: "Chậu rửa TOTO",
@@ -213,6 +225,7 @@ const category = {
       slug: "chau-rua-toto",
       price: 1000000,
       price_old: 2000000,
+      discountPercent: undefined,
     },
     {
       name: "Vòi nước TOTO",
@@ -222,6 +235,7 @@ const category = {
       slug: "voi-nuoc-toto",
       price: 1000000,
       price_old: 2000000,
+      discountPercent: undefined,
     },
     {
       name: "Chậu rửa TOTO",
@@ -232,6 +246,7 @@ const category = {
       slug: "chau-rua-toto",
       price: 1000000,
       price_old: 2000000,
+      discountPercent: undefined,
     },
     {
       name: "Vòi nước TOTO",
@@ -240,7 +255,8 @@ const category = {
         "https://www.tdm.vn/image/cachewebp/catalog/products/product_ms885dt8/ban-cau-toto-ms885dt8-1-408x408.webp",
       slug: "voi-nuoc-toto",
       price: 1000000,
-      price_old: 2000000,
+      price_old: 12000000,
+      discountPercent: undefined,
     },
   ],
   descFotter: [
@@ -288,7 +304,6 @@ const akas = [
     ],
   },
 ];
-
 const selectedSort = ref(akas[0].childs[0]); // Mặc định là "Bán chạy"
 const showDropdown = ref(false);
 const router = useRouter();
