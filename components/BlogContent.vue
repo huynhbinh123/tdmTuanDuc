@@ -13,7 +13,9 @@
             class="w-[250px] h-[150px] object-contain mr-8"
           />
           <div>
-            <h1 class="text-black font-medium py-2">{{ item.name }}</h1>
+            <h1 class="text-black font-medium py-2 hover:text-orange-500">
+              <NuxtLink :to="`/blog/${item.slug}`">{{ item.name }}</NuxtLink>
+            </h1>
             <h1 class="text-gray-500 py-2">
               {{ item.desc }}
             </h1>

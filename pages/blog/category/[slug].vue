@@ -79,19 +79,27 @@
               :key="index"
               class="text-orange-500 hover:text-gray-700"
             >
-              <NuxtLink
-                :to="
-                  name.name === 'bài viết mới'
-                    ? `/blog/${child.slug}`
-                    : `/blog/category/${child.slug}`
-                "
+              <button
+                class="flex items-center w-full"
+                @click="toggleExpand(index)"
               >
-                <UIcon
-                  v-if="name.name === 'Chuyên mục'"
-                  name="material-symbols:keyboard-arrow-down"
-                />
-                {{ child.name }}
-              </NuxtLink>
+                <NuxtLink
+                  :to="
+                    name.name === 'bài viết mới'
+                      ? `/blog/${child.slug}`
+                      : `/blog/category/${child.slug}`
+                  "
+                  class="flex-1 text-left"
+                >
+                  <UIcon
+                    v-if="name.name === 'Chuyên mục'"
+                    name="material-symbols:keyboard-arrow-down"
+                  />
+                  {{ child.name }}
+                </NuxtLink>
+              </button>
+
+              <!-- Sub menu with transition -->
               <Transition name="slide-down" mode="out-in">
                 <ul
                   v-if="
@@ -115,20 +123,17 @@
         </div>
       </div>
       <div class="col-span-4">
-        <h2
-          class="text-2xl font-semibold text-black border-b border-gray-200 py-4"
+        <div
+          style="border-top-color: orange; border-top-width: 3px"
+          class="p-4"
         >
-          {{ selectedCategory }}
-        </h2>
-        <p class="text-black">
-          Chậu rửa chén (bồn rửa bát) là khu vực hoạt động gần như liên tục
-          trong căn bếp, không chỉ phục vụ rửa thực phẩm, chén đĩa mà còn ảnh
-          hưởng đến thẩm mỹ và sự tiện nghi chung. Hafele – thương hiệu danh
-          tiếng toàn cầu đến từ Đức, nổi tiếng với các giải pháp phụ kiện nội
-          thất, thiết bị bếp và gia dụng chất lượng cao- mang đến dòng sản phẩm
-          chậu rửa chén đáp ứng những tiêu chuẩn khắc khe về độ bền, tính năng
-          và thiết kế tinh tế.
-        </p>
+          <h2
+            class="text-2xl font-semibold text-orange-500 border-b border-gray-200 py-4"
+          >
+            Danh mục: {{ selectedCategory }}
+          </h2>
+          <BlogContent :category="selectedCategory" :allItems="allItems" />
+        </div>
       </div>
     </div>
     <div class="flex justify-center py-6">
@@ -148,10 +153,18 @@
 </template>
 
 <script setup>
+definePageMeta({
+  layout: "blog",
+});
+
 import { useMockData } from "~/composables/useMockData";
 
 const { categoryMenu, Categories } = useMockData();
-const hoverIndex = ref(null);
+
+const items = computed(() =>
+  allItems.filter((item) => item.category === selectedCategory.value)
+);
+import { useRoute } from "vue-router";
 const route = useRoute();
 const selectedCategory = computed(() => {
   const path = route.path;
@@ -174,4 +187,72 @@ const selectedCategory = computed(() => {
 
   return findCategoryName(Categories);
 });
+
+const allItems = [
+  {
+    name: "So sánh bồn cầu TOTO MS857 và MS885: Giá và chất lượng khác nhau thế nào?",
+    category: "khuyen-mai",
+    desc: "MS857 và MS885 đều là dòng bồn cầu cao cấp của TOTO. Vậy sự khác biệt nằm ở đâu?",
+    img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857.jpg",
+    slug: "km-thiet-bi-ve-sinh",
+  },
+  {
+    name: "Top 5 vòi sen INAX bán chạy nhất tháng 6/2025",
+    category: "thiet-bi-ve-sinh",
+    desc: "Danh sách những mẫu vòi sen được ưa chuộng nhất hiện nay từ INAX.",
+    img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/05/voi-sen-inax.jpg",
+    slug: "san-pham-inax",
+  },
+  {
+    name: "Bồn rửa mặt Caesar LF5255: Có đáng tiền không?",
+    category: "thiet-bi-ve-sinh",
+    desc: "Đánh giá chi tiết mẫu lavabo Caesar LF5255, dòng sản phẩm bán chạy của hãng.",
+    img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/04/lavabo-caesar-lf5255.jpg",
+    slug: "san-pham-caesar",
+  },
+  {
+    name: "Ưu đãi 20% tất cả sản phẩm INAX trong tháng 6!",
+    category: "khuyen-mai",
+    desc: "Chương trình khuyến mãi hấp dẫn nhất dành cho khách hàng mua thiết bị INAX.",
+    img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/05/khuyen-mai-inax.jpg",
+    slug: "km-inax",
+  },
+  {
+    name: "Cách chọn gạch lát nền chống trơn phù hợp cho nhà tắm",
+    category: "kien-thuc-xay-dung",
+    desc: "Hướng dẫn chi tiết giúp bạn chọn đúng loại gạch an toàn và đẹp mắt cho phòng tắm.",
+    img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/02/gach-lat-nen-chong-tron.jpg",
+    slug: "kien-thuc-xay-dung",
+  },
+  {
+    name: "So sánh vòi rửa chén nóng lạnh TOTO và INAX: Nên chọn hãng nào?",
+    category: "thiet-bi-nha-bep",
+    desc: "Phân tích các yếu tố chất lượng, giá và bảo hành giữa hai thương hiệu lớn.",
+    img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/voi-rua-chen.jpg",
+    slug: "thiet-bi-nha-bep",
+  },
+];
+const hoverIndex = ref(null);
+const expandedIndex = ref(null);
+
+const toggleExpand = (index) => {
+  expandedIndex.value = expandedIndex.value === index ? null : index;
+};
 </script>
+<style scoped>
+.relative > .udropdownmenu {
+  z-index: 1000;
+}
+.slide-down-enter-active,
+.slide-down-leave-active {
+  transition: all 0.4s ease;
+}
+.slide-down-enter-from {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+.slide-down-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+</style>
