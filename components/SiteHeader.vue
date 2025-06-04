@@ -176,7 +176,10 @@
           </div>
 
           <!-- Tài khoản + Giỏ hàng -->
-          <div class="flex space-x-6 relative justify-center items-center">
+          <div
+            v-if="showCartUser"
+            class="flex space-x-6 relative justify-center items-center"
+          >
             <!-- Tài khoản -->
             <NuxtLink to="dang-nhap">
               <div
@@ -329,7 +332,10 @@
       </UContainer>
 
       <UContainer>
-        <div class="flex justify-between items-center container mx-auto">
+        <div
+          v-if="showCategoryMenu"
+          class="flex justify-between items-center container mx-auto"
+        >
           <!-- Bên trái -->
           <div
             class="flex items-center gap-2 text-orange-500 relative group shadow-md"
@@ -435,6 +441,8 @@ import { useCart } from "~/composables/useCart";
 
 const route = useRoute();
 const isOpen = ref(true);
+const showCartUser = ref(true);
+const showCategoryMenu = ref(true);
 
 type Category = {
   name: string;
