@@ -1,11 +1,13 @@
 <template>
-  <SiteHeader :showCategoryMenu="false" :showCartUser="false" />
+  <div class="flex flex-col min-h-screen bg-white">
+    <SiteHeader :showCategoryMenu="false" :showCartUser="false" />
 
-  <main class="flex-grow min-h-screen bg-white pt-[16px]">
-    <slot />
-  </main>
+    <main class="flex-grow pt-[16px]">
+      <slot />
+    </main>
 
-  <SiteFooter />
+    <SiteFooter />
+  </div>
 </template>
 
 <script lang="ts" setup></script>
