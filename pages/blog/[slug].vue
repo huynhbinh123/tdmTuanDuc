@@ -354,18 +354,27 @@
     </div>
   </UContainer>
 </template>
-
-<script setup>
+<script setup lang="ts">
+import { ref, computed, onMounted } from "vue";
+import { useRoute } from "vue-router";
 import { useMockData } from "~/composables/useMockData";
 
+interface CategoryItem {
+  name: string;
+  slug: string;
+  child?: CategoryItem[];
+}
+
 const { categoryMenu, Categories } = useMockData();
-const hoverIndex = ref(null);
+
+const hoverIndex = ref<number | null>(null);
 const route = useRoute();
-const selectedCategory = computed(() => {
+
+const selectedCategory = computed<string>(() => {
   const path = route.path;
   const slug = path.split("/").filter(Boolean).pop();
 
-  function findCategoryName(menu) {
+  function findCategoryName(menu: CategoryItem[]): string {
     for (const group of menu) {
       if (group.child) {
         for (const item of group.child) {
@@ -383,11 +392,14 @@ const selectedCategory = computed(() => {
   return findCategoryName(Categories);
 });
 
+const expandedIndexMobile = ref<number | null>(null);
+const expandedIndex = ref<number | null>(null);
+
 onMounted(() => {
   for (let i = 0; i < Categories.length; i++) {
     const group = Categories[i];
-    for (let j = 0; j < group.child.length; j++) {
-      const child = group.child[j];
+    for (let j = 0; j < (group.child?.length || 0); j++) {
+      const child = group.child![j];
 
       const isMatch =
         child.name === selectedCategory.value ||
@@ -403,18 +415,15 @@ onMounted(() => {
   }
 });
 
-const expandedIndexMobile = ref(null);
-const expandedIndex = ref(null);
-
-function toggleExpand(index) {
+function toggleExpand(index: number) {
   expandedIndex.value = expandedIndex.value === index ? null : index;
 }
+
 definePageMeta({
   layout: "blog",
 });
-const isOpen = ref(false);
 
-import { ref } from "vue";
+const isOpen = ref<boolean>(false);
 
 const form = ref({
   name: "",
@@ -423,7 +432,13 @@ const form = ref({
   comment: "",
 });
 
-const errors = ref({});
+interface Errors {
+  name?: string;
+  email?: string;
+  comment?: string;
+}
+
+const errors = ref<Errors>({});
 
 const submitReview = () => {
   errors.value = {};

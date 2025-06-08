@@ -4,7 +4,7 @@
     <div class="lg:block hidden">
       <div class="grid grid-cols-6 gap-16 mt-6">
         <div class="col-span-2">
-          <div>
+          <div class="space-y-5">
             <div
               v-for="(name, index) in Categories"
               :key="index"
@@ -35,48 +35,12 @@
               </ul>
 
               <ul v-else class="space-y-1">
-                <li
-                  v-for="(child, index) in name.child"
-                  :key="index"
-                  class="text-orange-500 hover:text-gray-700"
-                >
-                  <NuxtLink
-                    :to="`/blog/category/${child.slug}`"
-                    class="flex items-center gap-2"
-                  >
-                    <UIcon
-                      name="material-symbols:keyboard-arrow-down"
-                      size="20"
-                      class="text-orange-500"
-                      @click.stop.prevent="toggleExpand(index)"
-                    />
-                    <span>{{ child.name }}</span>
-                  </NuxtLink>
-
-                  <!-- Sub menu -->
-                  <Transition name="slide-down" mode="out-in">
-                    <ul
-                      v-if="
-                        child.child &&
-                        child.child.length &&
-                        expandedIndex === index
-                      "
-                      class="pl-4 space-y-1 overflow-hidden"
-                    >
-                      <li
-                        v-for="(sub, subIndex) in child.child"
-                        :key="subIndex"
-                        class="text-gray-500 hover:text-orange-500"
-                      >
-                        <NuxtLink
-                          :to="`/blog/category/${sub.slug}`"
-                          class="ml-6"
-                        >
-                          {{ sub.name }}
-                        </NuxtLink>
-                      </li>
-                    </ul>
-                  </Transition>
+                <li v-for="(item, index) in flattenedCategories" :key="index">
+                  <TreeNavItem
+                    :item="item"
+                    :expandedSlug="expandedSlug"
+                    @toggle="$emit('toggle', $event)"
+                  />
                 </li>
               </ul>
             </div>
@@ -179,7 +143,6 @@
                     name="material-symbols:keyboard-arrow-down"
                     size="20"
                     class="text-orange-500"
-                    @click.stop.prevent="toggleExpand(index)"
                   />
                   <span>{{ child.name }}</span>
                 </NuxtLink>
@@ -321,6 +284,20 @@ const expandedIndex = ref(null);
 function toggleExpand(index) {
   expandedIndex.value = expandedIndex.value === index ? null : index;
 }
+import { computed } from "vue";
+
+const flattenedCategories = computed(() =>
+  Categories.flatMap((item) => {
+    const name = item.name.toLowerCase();
+    if (name === "bài viết mới") {
+      return [];
+    }
+    if (name === "chuyên mục") {
+      return item.child || [];
+    }
+    return [item];
+  })
+);
 </script>
 <style scoped>
 .relative > .udropdownmenu {

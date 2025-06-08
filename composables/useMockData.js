@@ -199,7 +199,14 @@ export const useMockData = () => {
           name: "Thiết Bị Vệ Sinh",
           slug: "thiet-bi-ve-sinh",
           child: [
-            { name: "Bồn cầu", slug: "bon-cau" },
+            {
+              name: "Bồn cầu",
+              slug: "bon-cau",
+              child: [
+                { name: "Chậu rửa", slug: "chau-rua" },
+                { name: "Vòi sen", slug: "voi-sen" },
+              ],
+            },
             { name: "Chậu rửa", slug: "chau-rua" },
             { name: "Vòi sen", slug: "voi-sen" },
           ],
