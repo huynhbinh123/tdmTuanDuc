@@ -332,12 +332,10 @@
       </UContainer>
 
       <UContainer>
-        <div
-          v-if="showCategoryMenu"
-          class="flex justify-between items-center container mx-auto"
-        >
+        <div class="flex justify-between items-center container mx-auto">
           <!-- Bên trái -->
           <div
+            v-if="showCategoryMenu"
             class="flex items-center gap-2 text-orange-500 relative group shadow-md"
           >
             <UIcon name="ion:navicon" size="25" />
@@ -416,7 +414,8 @@
           </div>
 
           <!-- Bên phải -->
-          <div class="flex items-center space-x-6">
+
+          <div v-if="showCategoryMenu" class="flex items-center space-x-6">
             <a href="" class="text-orange-500 hover:underline">Giới thiệu</a>
             <a href="" class="text-orange-500 hover:underline">Hướng dẫn</a>
             <a href="" class="text-orange-500 hover:underline">Liên hệ</a>
@@ -441,9 +440,6 @@ import { useCart } from "~/composables/useCart";
 
 const route = useRoute();
 const isOpen = ref(true);
-const showCartUser = ref(true);
-const showCategoryMenu = ref(true);
-
 type Category = {
   name: string;
   slug?: string;
@@ -612,6 +608,17 @@ const showCart = ref(false);
 const toggleCart = () => {
   showCart.value = !showCart.value;
 };
+
+defineProps({
+  showCategoryMenu: {
+    type: Boolean,
+    default: true,
+  },
+  showCartUser: {
+    type: Boolean,
+    default: true,
+  },
+});
 </script>
 
 <style scoped>

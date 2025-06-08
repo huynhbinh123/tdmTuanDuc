@@ -1,15 +1,224 @@
 <template>
   <div class="flex flex-col min-h-screen bg-white">
-    <SiteHeader :showCategoryMenu="false" :showCartUser="false" />
+    <SiteHeader :showCartUser="false" :showCategoryMenu="false" />
 
     <main class="flex-grow pt-[16px]">
+      <UContainer>
+        <div class="items-center gap-2 lg:hidden flex justify-center pb-[16px]">
+          <UIcon name="material-symbols:call" size="30" class="bg-orange-500" />
+          <h3 class="text-black font-medium">
+            HOTLINE:
+            <span class="text-orange-500">0933322232 - 02822448333</span>
+          </h3>
+        </div>
+        <div class="lg:hidden block">
+          <UCollapsible class="flex flex-col gap-2 w-full">
+            <UButton class="w-full bg-orange-500 text-white">
+              <div class="flex items-center justify-center w-full h-full gap-2">
+                <UIcon
+                  name="material-symbols:menu-rounded"
+                  class="text-white mb-0.5"
+                  size="20"
+                />
+                <span>MENU</span>
+              </div>
+            </UButton>
+
+            <template #content>
+              <div class="flex flex-col">
+                <NuxtLink
+                  to="/"
+                  class="flex items-center py-1 border-y border-gray-300"
+                >
+                  <UIcon
+                    name="material-symbols:house"
+                    class="text-black"
+                    size="30"
+                  />
+                  <span class="font-bold text-black">TRANG CHỦ</span>
+                </NuxtLink>
+
+                <div
+                  v-for="(item, index) in categoryMenu"
+                  :key="index"
+                  v-if="index !== 0"
+                  class="relative border-b border-gray-300 py-1"
+                  @mouseenter="hoverIndex = index"
+                  @mouseleave="hoverIndex = null"
+                >
+                  <div class="flex items-center justify-between gap-2">
+                    <ul
+                      class="flex items-center justify-between w-full list-none cursor-pointer"
+                    >
+                      <li
+                        :class="[
+                          'uppercase font-bold relative',
+                          hoverIndex === index
+                            ? 'text-orange-500'
+                            : 'text-black',
+                        ]"
+                      >
+                        <NuxtLink :to="`/blog/category/${item.slug}`">{{
+                          item.name
+                        }}</NuxtLink>
+                      </li>
+                      <div
+                        class="px-2 border-x border-gray-200 flex items-center"
+                        @click="
+                          expandedIndexMobile =
+                            expandedIndexMobile === index ? null : index
+                        "
+                      >
+                        <UIcon
+                          name="material-symbols:keyboard-arrow-down"
+                          size="30"
+                          :class="
+                            hoverIndex === index
+                              ? 'text-orange-500'
+                              : 'text-black'
+                          "
+                        />
+                      </div>
+                    </ul>
+                  </div>
+
+                  <div
+                    v-if="
+                      expandedIndexMobile === index &&
+                      item.child &&
+                      item.child.length
+                    "
+                    class="bg-white z-10 mt-1"
+                  >
+                    <ul class="flex flex-col">
+                      <li
+                        v-for="(child, cIndex) in item.child"
+                        :key="cIndex"
+                        class="border-t border-gray-200"
+                      >
+                        <NuxtLink
+                          :to="`/${child.slug}`"
+                          class="text-black hover:text-orange-500 block p-2"
+                        >
+                          {{ child.name }}
+                        </NuxtLink>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </UCollapsible>
+        </div>
+
+        <div
+          class="lg:flex hidden items-center justify-between py-4 border-b border-gray-200"
+        >
+          <NuxtLink to="/">
+            <UIcon
+              name="material-symbols:house"
+              class="text-black hover:text-orange-500"
+              size="30"
+            />
+          </NuxtLink>
+
+          <div
+            v-for="(item, index) in categoryMenu"
+            :key="item.slug || index"
+            class="flex items-center gap-2 border-l border-gray-200 pl-5 relative"
+            @mouseenter="hoverIndex = index"
+            @mouseleave="hoverIndex = null"
+          >
+            <ul
+              v-if="index !== 0"
+              class="flex items-center gap-2 list-none cursor-pointer"
+            >
+              <li
+                :class="[
+                  'uppercase font-bold text-sm relative',
+                  hoverIndex === index ? 'text-orange-500' : 'text-black',
+                ]"
+              >
+                <NuxtLink :to="`/blog/category/${item.slug}`">{{
+                  item.name
+                }}</NuxtLink>
+                <span
+                  v-if="hoverIndex === index"
+                  class="absolute left-1/2 -bottom-3 transform -translate-x-1/2 z-20"
+                >
+                  <span
+                    class="block w-0 h-0 border-l-10 border-r-10 border-b-10 border-l-transparent border-r-transparent border-b-gray-300"
+                  ></span>
+                </span>
+                <span class="absolute block w-[180px] -right-8 h-[30px]"></span>
+              </li>
+              <UIcon
+                name="material-symbols:keyboard-arrow-down"
+                size="20"
+                :class="hoverIndex === index ? 'text-orange-500' : 'text-black'"
+              />
+            </ul>
+
+            <div
+              v-if="hoverIndex === index && item.child && item.child.length"
+              class="absolute top-full left-0 w-48 bg-white border border-gray-200 shadow-md rounded z-10 mt-2"
+            >
+              <ul class="flex flex-col">
+                <li
+                  v-for="(child, cIndex) in item.child"
+                  :key="cIndex"
+                  class="rounded border-b border-gray-200"
+                >
+                  <NuxtLink
+                    :to="`/${child.slug}`"
+                    class="text-black hover:text-orange-500 block p-2"
+                  >
+                    {{ child.name }}
+                  </NuxtLink>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div></UContainer
+      >
       <slot />
     </main>
-
+    <div class="fixed right-4 bottom-10">
+      <ul class="space-y-4">
+        <li v-for="(item, index) in wighets" :key="index">
+          <div
+            class="cursor-pointer flex items-center justify-start lg:gap-2 bg-white lg:rounded-3xl rounded-full lg:px-2 px-1 py-1 shadow-2xl"
+          >
+            <div class="lg:w-[40px]">
+              <img
+                :src="item.image"
+                class="rounded-full lg:w-[40px] w-[30px] lg:h-[40px] h-[30px]"
+              />
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-black/90 lg:block hidden">
+                {{ item.name }}
+              </h3>
+              <h4 class="text-xs text-gray-500 lg:block hidden">
+                {{ item.desc }}
+              </h4>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
     <SiteFooter />
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script setup>
+import { ref } from "vue";
+import { useMockData } from "~/composables/useMockData";
+
+const { categoryMenu } = useMockData();
+const hoverIndex = ref(null);
+
+const { wighets } = useMockData();
+</script>
 
 <style></style>

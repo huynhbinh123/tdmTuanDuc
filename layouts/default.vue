@@ -43,24 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-const wighets = [
-  {
-    image:
-      "https://www.tdm.vn/catalog/view/theme/default/image/icon-zalo-3.png",
-    name: "Chat Zalo",
-    desc: "(7h30 - 18h00)",
-  },
-  {
-    image:
-      "https://st2.depositphotos.com/5266903/8762/v/450/depositphotos_87623494-stock-illustration-phone-call-icon.jpg",
-    name: "0357312832",
-    desc: "(7h30 - 18h00)",
-  },
-  {
-    image:
-      "https://www.tdm.vn/catalog/view/theme/default/image/icon-messenger.png",
-    name: "Chat Facebook",
-    desc: "(7h30 - 18h00)",
-  },
-];
+import { useMockData } from "~/composables/useMockData";
+
+const { wighets } = useMockData();
 </script>

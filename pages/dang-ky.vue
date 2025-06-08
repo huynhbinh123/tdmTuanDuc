@@ -49,61 +49,8 @@
   </UContainer>
 </template>
 <script setup lang="ts">
-const userForm = [
-  {
-    group: "Thông tin cá nhân",
-    fields: [
-      {
-        label: "Tên",
-        model: "firstName",
-        placeholder: "Nhập tên",
-        type: "text",
-        required: true,
-      },
-      {
-        label: "Họ và tên lót",
-        model: "lastName",
-        placeholder: "Nhập họ và tên lót",
-        type: "text",
-        required: true,
-      },
-      {
-        label: "Địa chỉ E-Mail",
-        model: "email",
-        placeholder: "Nhập email",
-        type: "email",
-        required: true,
-      },
-      {
-        label: "Điện Thoại",
-        model: "phone",
-        placeholder: "Nhập số điện thoại",
-        type: "tel",
-        required: true,
-      },
-    ],
-  },
-  {
-    group: "Mật khẩu",
-    fields: [
-      {
-        label: "Mật Khẩu",
-        model: "password",
-        placeholder: "Nhập mật khẩu",
-        type: "password",
-        required: true,
-      },
-      {
-        label: "Nhập lại Mật Khẩu",
-        model: "confirmPassword",
-        placeholder: "Nhập lại mật khẩu",
-        type: "password",
-        required: true,
-      },
-    ],
-  },
-];
-
+import { useMockUserForm } from '~/composables/useMockData'
+const userForm = useMockUserForm()
 type FormField =
   | "firstName"
   | "lastName"

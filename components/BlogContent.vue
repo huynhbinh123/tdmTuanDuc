@@ -10,16 +10,27 @@
           <div
             class="w-full lg:w-[250px] aspect-[5/3] shrink-0 overflow-hidden"
           >
-            <img :src="item.img" alt="" class="w-full h-full object-cover" />
+            <NuxtLink
+              :to="`/blog/${item.slug}`"
+              class="group block w-full h-full"
+            >
+              <div class="relative w-full h-full">
+                <img
+                  :src="item.img"
+                  alt=""
+                  class="w-full h-full object-cover group-hover:opacity-80 transition duration-300"
+                />
+              </div>
+            </NuxtLink>
           </div>
 
-          <div class="flex flex-col justify-start pl-4">
+          <div class="flex flex-col justify-start pl-4 line-clamp-3">
             <h1
-              class="text-black font-medium py-2 hover:text-orange-500 transition duration-300"
+              class="text-black text-xl font-bold py-2 hover:text-orange-500 cursor-pointer"
             >
               <NuxtLink :to="`/blog/${item.slug}`">{{ item.name }}</NuxtLink>
             </h1>
-            <h1 class="text-gray-500 py-2">
+            <h1 class="text-gray-500 line-clamp-3">
               {{ item.desc }}
             </h1>
           </div>
