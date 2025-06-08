@@ -24,7 +24,7 @@
             </NuxtLink>
           </div>
 
-          <div class="flex flex-col justify-start pl-4 line-clamp-3">
+          <div class="flex flex-col justify-start lg:pl-4 pl-0 line-clamp-3">
             <h1
               class="text-black text-xl font-bold py-2 hover:text-orange-500 cursor-pointer"
             >

@@ -11,9 +11,14 @@
             <span class="text-orange-500">0933322232 - 02822448333</span>
           </h3>
         </div>
+
+        <!-- mobile -->
         <div class="lg:hidden block">
-          <UCollapsible class="flex flex-col gap-2 w-full">
-            <UButton class="w-full bg-orange-500 text-white">
+          <div class="flex flex-col gap-2 w-full">
+            <UButton
+              class="w-full bg-orange-500 text-white"
+              @click="toggleMainMenu"
+            >
               <div class="flex items-center justify-center w-full h-full gap-2">
                 <UIcon
                   name="material-symbols:menu-rounded"
@@ -23,8 +28,7 @@
                 <span>MENU</span>
               </div>
             </UButton>
-
-            <template #content>
+            <div :class="['slide-toggle', isMainMenuOpen ? 'open' : '']">
               <div class="flex flex-col">
                 <NuxtLink
                   to="/"
@@ -41,12 +45,14 @@
                 <div
                   v-for="(item, index) in categoryMenu"
                   :key="index"
-                  v-if="index !== 0"
-                  class="relative border-b border-gray-300 py-1"
                   @mouseenter="hoverIndex = index"
                   @mouseleave="hoverIndex = null"
+                  class="relative py-1"
                 >
-                  <div class="flex items-center justify-between gap-2">
+                  <div
+                    v-if="index >= 1"
+                    class="flex items-center justify-between gap-2 border-b border-gray-300"
+                  >
                     <ul
                       class="flex items-center justify-between w-full list-none cursor-pointer"
                     >
@@ -58,16 +64,13 @@
                             : 'text-black',
                         ]"
                       >
-                        <NuxtLink :to="`/blog/category/${item.slug}`">{{
-                          item.name
-                        }}</NuxtLink>
+                        <NuxtLink :to="`/blog/category/${item.slug}`">
+                          {{ item.name }}
+                        </NuxtLink>
                       </li>
                       <div
                         class="px-2 border-x border-gray-200 flex items-center"
-                        @click="
-                          expandedIndexMobile =
-                            expandedIndexMobile === index ? null : index
-                        "
+                        @click="toggleMobileMenu(index)"
                       >
                         <UIcon
                           name="material-symbols:keyboard-arrow-down"
@@ -82,19 +85,18 @@
                     </ul>
                   </div>
 
+                  <!-- Menu con -->
                   <div
-                    v-if="
-                      expandedIndexMobile === index &&
-                      item.child &&
-                      item.child.length
-                    "
-                    class="bg-white z-10 mt-1"
+                    :class="[
+                      'slide-toggle',
+                      expandedIndexMobile === index ? 'open' : '',
+                    ]"
                   >
                     <ul class="flex flex-col">
                       <li
                         v-for="(child, cIndex) in item.child"
                         :key="cIndex"
-                        class="border-t border-gray-200"
+                        class="border-b border-gray-200"
                       >
                         <NuxtLink
                           :to="`/${child.slug}`"
@@ -107,10 +109,10 @@
                   </div>
                 </div>
               </div>
-            </template>
-          </UCollapsible>
+            </div>
+          </div>
         </div>
-
+        <!-- lg -->
         <div
           class="lg:flex hidden items-center justify-between py-4 border-b border-gray-200"
         >
@@ -144,13 +146,19 @@
                 }}</NuxtLink>
                 <span
                   v-if="hoverIndex === index"
-                  class="absolute left-1/2 -bottom-3 transform -translate-x-1/2 z-20"
+                  class="absolute left-1/2 -bottom-[9px] transform -translate-x-1/2 z-20"
                 >
+                  <!-- Lớp viền ngoài -->
                   <span
-                    class="block w-0 h-0 border-l-10 border-r-10 border-b-10 border-l-transparent border-r-transparent border-b-gray-300"
+                    class="block w-0 h-0 border-l-[10px] border-r-[10px] border-b-[10px] border-l-transparent border-r-transparent border-b-gray-300"
+                  ></span>
+                  <span
+                    class="absolute top-[1px] left-1/2 transform -translate-x-1/2 block w-0 h-0 border-l-[9px] border-r-[9px] border-b-[9px] border-l-transparent border-r-transparent border-b-white"
+                  ></span>
+                  <span
+                    class="absolute top-[1px] left-10 transform -translate-x-1/2 block w-40 h-10"
                   ></span>
                 </span>
-                <span class="absolute block w-[180px] -right-8 h-[30px]"></span>
               </li>
               <UIcon
                 name="material-symbols:keyboard-arrow-down"
@@ -163,7 +171,7 @@
               v-if="hoverIndex === index && item.child && item.child.length"
               class="absolute top-full left-0 w-48 bg-white border border-gray-200 shadow-md rounded z-10 mt-2"
             >
-              <ul class="flex flex-col">
+              <ul class="flex flex-col bg-white">
                 <li
                   v-for="(child, cIndex) in item.child"
                   :key="cIndex"
@@ -211,14 +219,39 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 import { useMockData } from "~/composables/useMockData";
 
 const { categoryMenu } = useMockData();
-const hoverIndex = ref(null);
+const hoverIndex = ref<number | null>(null);
 
 const { wighets } = useMockData();
+const expandedIndexMobile = ref<number | null>(null);
+const isMainMenuOpen = ref(false);
+
+function toggleMobileMenu(index: number | null) {
+  expandedIndexMobile.value =
+    expandedIndexMobile.value === index ? null : index;
+}
+
+function toggleMainMenu() {
+  isMainMenuOpen.value = !isMainMenuOpen.value;
+}
 </script>
 
-<style></style>
+<style>
+.slide-toggle {
+  overflow: hidden;
+  transition: 0.8s ease, padding 0.8s ease;
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.slide-toggle.open {
+  max-height: 1000px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+</style>
