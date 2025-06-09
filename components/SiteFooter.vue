@@ -69,9 +69,11 @@
                   :key="childIndex"
                   class="mb-2"
                 >
-                  <a href="" class="hover:underline cursor-pointer">{{
-                    child2.name
-                  }}</a>
+                  <NuxtLink
+                    :to="`/blog/category/${child2.slug}`"
+                    class="hover:underline"
+                    >{{ child2.name }}</NuxtLink
+                  >
                 </li>
               </ul>
             </div>
@@ -116,7 +118,7 @@
               <a
                 v-for="(icon, iconIndex) in footerBottom.faq.icons"
                 :key="iconIndex"
-                href=""
+                href="/"
                 class="border px-2 pt-1 text-white justify-center items-center"
               >
                 <UIcon :name="icon.name" />
@@ -152,37 +154,37 @@ const footerItems = [
   {
     name: "Thông tin",
     child: [
-      { name: "Giới thiệu", link: "#" },
-      { name: "Tuyển dụng", link: "#" },
-      { name: "Hãng phân phối", link: "#" },
-      { name: "Liên hệ", link: "#" },
+      { name: "Giới thiệu", slug: "gioi-thieu" },
+      { name: "Tuyển dụng", slug: "tuyen-dung" },
+      { name: "Hãng phân phối", slug: "hang-phan-phoi" },
+      { name: "Liên hệ", slug: "lien-he" },
     ],
   },
   {
     name: "Chính sách",
     child: [
-      { name: "Chính sách bảo mật", link: "#" },
-      { name: "Chính sách đổi trả", link: "#" },
-      { name: "Chính sách vận chuyển", link: "#" },
-      { name: "Hỗ trợ khách hàng", link: "#" },
+      { name: "Chính sách bảo mật", slug: "chinh-sach-bao-mat" },
+      { name: "Chính sách đổi trả", slug: "chinh-sach-doi-tra" },
+      { name: "Chính sách vận chuyển", slug: "chinh-sach-van-chuyen" },
+      { name: "Hỗ trợ khách hàng", slug: "ho-tro-khach-hang" },
     ],
   },
   {
     name: "Hướng dẫn mua hàng",
     child: [
-      { name: "Hướng dẫn mua hàng", link: "#" },
-      { name: "Hướng dẫn thanh toán", link: "#" },
-      { name: "Câu hỏi thường gặp", link: "#" },
-      { name: "Liên hệ hỗ trợ", link: "#" },
+      { name: "Hướng dẫn mua hàng", slug: "huong-dan-mua-hang" },
+      { name: "Hướng dẫn thanh toán", slug: "huong-dan-thanh-toan" },
+      { name: "Câu hỏi thường gặp", slug: "cau-hoi-thuong-gap" },
+      { name: "Liên hệ hỗ trợ", slug: "lien-he-ho-tro" },
     ],
   },
   {
     name: "Tin tức",
     child: [
-      { name: "Khuyến mãi", link: "#" },
-      { name: "Catalog", link: "#" },
-      { name: "Tư vấn thiết bị vệ sinh", link: "#" },
-      { name: "Tư vấn thiết bị bếp", link: "#" },
+      { name: "Khuyến mãi", slug: "khuyen-mai" },
+      { name: "Catalog", slug: "catalog" },
+      { name: "Tư vấn thiết bị vệ sinh", slug: "thiet-bi-ve-sinh" },
+      { name: "Tư vấn thiết bị bếp", slug: "thiet-bi-bep" },
     ],
   },
 ];

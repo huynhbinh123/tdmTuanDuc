@@ -1,12 +1,19 @@
 <template>
   <div>
-    <div class="cursor-pointer flex items-center gap-1" @click="toggle">
-      <NuxtLink :to="`/blog/category/${item.slug}`" @click.stop>
-        <span class="text-orange-500 hover:text-gray-500">{{ item.name }}</span>
-      </NuxtLink>
-      <span v-if="item.child" class="text-gray-500 text-sm select-none">
-        {{ isOpen ? "▲" : "▼" }}
-      </span>
+    <div class="cursor-pointer flex items-center gap-1">
+      <div class="flex items-center gap-1">
+        <NuxtLink
+          :to="`/blog/category/${item.slug}`"
+          class="text-orange-500 hover:text-gray-500"
+        >
+          {{ item.name }}
+        </NuxtLink>
+        <div v-if="item.child" @click.stop="toggle" class="cursor-pointer">
+          <span class="!text-gray-500 text-sm select-none">
+            {{ isOpen ? "▲" : "▼" }}
+          </span>
+        </div>
+      </div>
     </div>
 
     <transition name="slide">
@@ -22,9 +29,9 @@
     </transition>
   </div>
 </template>
-
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
+import { useRoute } from "vue-router";
 
 interface Item {
   name: string;
@@ -40,20 +47,28 @@ const props = defineProps<{
 const emit = defineEmits(["toggle"]);
 
 const isOpen = ref(false);
+const route = useRoute();
 
-watch(
-  () => props.expandedSlug,
-  (newVal) => {
-    // Mở submenu nếu slug trùng, đóng nếu không
-    isOpen.value = newVal === props.item.slug;
-  },
-  { immediate: true }
-);
+// Mở ra nếu route hiện tại trùng với slug hoặc slug con
+onMounted(() => {
+  const currentSlug = route.path.split("/").filter(Boolean).pop();
 
+  const hasMatch = (item: Item): boolean => {
+    if (item.slug === currentSlug) return true;
+    if (item.child) {
+      return item.child.some((sub) => hasMatch(sub));
+    }
+    return false;
+  };
+
+  if (hasMatch(props.item)) {
+    isOpen.value = true;
+  }
+});
+
+// Toggle khi nhấn vào mũi tên
 function toggle() {
-  // Nếu đã mở thì đóng, ngược lại mở
-  const newSlug = isOpen.value ? null : props.item.slug;
-  emit("toggle", newSlug);
+  isOpen.value = !isOpen.value;
 }
 </script>
 

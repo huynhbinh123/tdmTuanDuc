@@ -35,48 +35,12 @@
               </ul>
 
               <ul v-else class="space-y-1">
-                <li
-                  v-for="(child, index) in name.child"
-                  :key="index"
-                  class="text-orange-500 hover:text-gray-700"
-                >
-                  <NuxtLink
-                    :to="`/blog/category/${child.slug}`"
-                    class="flex items-center gap-2"
-                  >
-                    <UIcon
-                      name="material-symbols:keyboard-arrow-down"
-                      size="20"
-                      class="text-orange-500"
-                      @click.stop.prevent="toggleExpand(index)"
-                    />
-                    <span>{{ child.name }}</span>
-                  </NuxtLink>
-
-                  <!-- Sub menu -->
-                  <Transition name="slide-down" mode="out-in">
-                    <ul
-                      v-if="
-                        child.child &&
-                        child.child.length &&
-                        expandedIndex === index
-                      "
-                      class="pl-4 space-y-1 overflow-hidden"
-                    >
-                      <li
-                        v-for="(sub, subIndex) in child.child"
-                        :key="subIndex"
-                        class="text-gray-500 hover:text-orange-500"
-                      >
-                        <NuxtLink
-                          :to="`/blog/category/${sub.slug}`"
-                          class="ml-6"
-                        >
-                          {{ sub.name }}
-                        </NuxtLink>
-                      </li>
-                    </ul>
-                  </Transition>
+                <li v-for="(item, index) in flattenedCategories" :key="index">
+                  <TreeNavItem
+                    :item="item"
+                    :expandedSlug="null"
+                    @toggle="$emit('toggle', $event)"
+                  />
                 </li>
               </ul>
             </div>
@@ -307,45 +271,12 @@
             </ul>
 
             <ul v-else class="space-y-1">
-              <li
-                v-for="(child, index) in name.child"
-                :key="index"
-                class="text-orange-500 hover:text-gray-700"
-              >
-                <NuxtLink
-                  :to="`/blog/category/${child.slug}`"
-                  class="flex items-center gap-2"
-                >
-                  <UIcon
-                    name="material-symbols:keyboard-arrow-down"
-                    size="20"
-                    class="text-orange-500"
-                    @click.stop.prevent="toggleExpand(index)"
-                  />
-                  <span>{{ child.name }}</span>
-                </NuxtLink>
-
-                <!-- Sub menu -->
-                <Transition name="slide-down" mode="out-in">
-                  <ul
-                    v-if="
-                      child.child &&
-                      child.child.length &&
-                      expandedIndex === index
-                    "
-                    class="pl-4 space-y-1 overflow-hidden"
-                  >
-                    <li
-                      v-for="(sub, subIndex) in child.child"
-                      :key="subIndex"
-                      class="text-gray-500 hover:text-orange-500"
-                    >
-                      <NuxtLink :to="`/blog/category/${sub.slug}`" class="ml-6">
-                        {{ sub.name }}
-                      </NuxtLink>
-                    </li>
-                  </ul>
-                </Transition>
+              <li v-for="(item, index) in flattenedCategories" :key="index">
+                <TreeNavItem
+                  :item="item"
+                  :expandedSlug="null"
+                  @toggle="$emit('toggle', $event)"
+                />
               </li>
             </ul>
           </div>
@@ -370,16 +301,35 @@ const { categoryMenu, Categories } = useMockData();
 const hoverIndex = ref<number | null>(null);
 const route = useRoute();
 
-const selectedCategory = computed<string>(() => {
+const selectedCategory = computed(() => {
   const path = route.path;
   const slug = path.split("/").filter(Boolean).pop();
 
-  function findCategoryName(menu: CategoryItem[]): string {
+  function findCategoryName(
+    menu: (
+      | { name: string; child: { name: string; slug: string }[] }
+      | {
+          name: string;
+          child: {
+            name: string;
+            slug: string;
+            child: (
+              | {
+                  name: string;
+                  slug: string;
+                  child: { name: string; slug: string }[];
+                }
+              | { name: string; slug: string; child?: undefined }
+            )[];
+          }[];
+        }
+    )[]
+  ) {
     for (const group of menu) {
       if (group.child) {
         for (const item of group.child) {
           if (item.slug === slug) return item.name;
-          if (item.child) {
+          if ("child" in item && Array.isArray(item.child)) {
             const subItem = item.child.find((sub) => sub.slug === slug);
             if (subItem) return subItem.name;
           }
@@ -394,16 +344,16 @@ const selectedCategory = computed<string>(() => {
 
 const expandedIndexMobile = ref<number | null>(null);
 const expandedIndex = ref<number | null>(null);
-
 onMounted(() => {
   for (let i = 0; i < Categories.length; i++) {
     const group = Categories[i];
-    for (let j = 0; j < (group.child?.length || 0); j++) {
-      const child = group.child![j];
+    for (let j = 0; j < group.child.length; j++) {
+      const child = group.child[j];
 
       const isMatch =
         child.name === selectedCategory.value ||
-        (child.child &&
+        ("child" in child &&
+          Array.isArray(child.child) &&
           child.child.some((sub) => sub.name === selectedCategory.value));
 
       if (isMatch) {
@@ -416,7 +366,12 @@ onMounted(() => {
 });
 
 function toggleExpand(index: number) {
-  expandedIndex.value = expandedIndex.value === index ? null : index;
+  if (window.innerWidth >= 1024) {
+    expandedIndex.value = expandedIndex.value === index ? null : index;
+  } else {
+    expandedIndexMobile.value =
+      expandedIndexMobile.value === index ? null : index;
+  }
 }
 
 definePageMeta({
@@ -468,4 +423,25 @@ const submitReview = () => {
     };
   }
 };
+
+import TreeNavItem from "~/components/TreeNavItem.vue";
+
+interface TreeNavItemType {
+  name: string;
+  slug: string;
+  child?: TreeNavItemType[];
+}
+
+const flattenedCategories = computed<TreeNavItemType[]>(() =>
+  Categories.flatMap((item) => {
+    const name = item.name.toLowerCase();
+    if (name === "bài viết mới") {
+      return [];
+    }
+    if (name === "chuyên mục") {
+      return (item.child || []) as TreeNavItemType[];
+    }
+    return [item as TreeNavItemType];
+  })
+);
 </script>

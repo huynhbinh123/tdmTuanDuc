@@ -243,7 +243,6 @@ function toggleMainMenu() {
 <style>
 .slide-toggle {
   overflow: hidden;
-  transition: 0.8s ease, padding 0.8s ease;
   max-height: 0;
   padding-top: 0;
   padding-bottom: 0;

@@ -130,44 +130,12 @@
             </ul>
 
             <ul v-else class="space-y-1">
-              <li
-                v-for="(child, index) in name.child"
-                :key="index"
-                class="text-orange-500 hover:text-gray-700"
-              >
-                <NuxtLink
-                  :to="`/blog/category/${child.slug}`"
-                  class="flex items-center gap-2"
-                >
-                  <UIcon
-                    name="material-symbols:keyboard-arrow-down"
-                    size="20"
-                    class="text-orange-500"
-                  />
-                  <span>{{ child.name }}</span>
-                </NuxtLink>
-
-                <!-- Sub menu -->
-                <Transition name="slide-down" mode="out-in">
-                  <ul
-                    v-if="
-                      child.child &&
-                      child.child.length &&
-                      expandedIndex === index
-                    "
-                    class="pl-4 space-y-1 overflow-hidden"
-                  >
-                    <li
-                      v-for="(sub, subIndex) in child.child"
-                      :key="subIndex"
-                      class="text-gray-500 hover:text-orange-500"
-                    >
-                      <NuxtLink :to="`/blog/category/${sub.slug}`" class="ml-6">
-                        {{ sub.name }}
-                      </NuxtLink>
-                    </li>
-                  </ul>
-                </Transition>
+              <li v-for="(item, index) in flattenedCategories" :key="index">
+                <TreeNavItem
+                  :item="item"
+                  :expandedSlug="null"
+                  @toggle="$emit('toggle', $event)"
+                />
               </li>
             </ul>
           </div>
