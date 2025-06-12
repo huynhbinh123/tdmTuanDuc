@@ -79,11 +79,16 @@
             v-show="showDropdown"
             class="absolute mt-2 w-full bg-white border border-gray-200 rounded shadow z-50"
           >
-            <ul class="py-1 text-m text-gray-700">
+            <ul class="py-1 text-m text-gray-700 z-1">
               <li
                 v-for="(option, index) in akas[0].childs"
                 :key="index"
-                class="px-4 py-2 hover:bg-blue-500 hover:text-white cursor-pointer"
+                class="px-4 py-2"
+                :class="{
+                  'bg-blue-500 text-white': selectedSort.name === option.name,
+                  'hover:bg-blue-100': selectedSort.name !== option.name,
+                }"
+                @click="handleSortChange(option)"
               >
                 {{ option.name }}
               </li>
@@ -304,9 +309,17 @@ const akas = [
     ],
   },
 ];
+
+const soft_type = ref("ban_chay");
+
 const selectedSort = ref(akas[0].childs[0]); // Mặc định là "Bán chạy"
 const showDropdown = ref(false);
-const router = useRouter();
+
+const handleSortChange = (option: { name: string; slug: string }) => {
+  selectedSort.value = option;
+  soft_type.value = option.slug;
+  showDropdown.value = false;
+};
 </script>
 
 <style scoped>

@@ -4,10 +4,16 @@
       <div class="flex items-center gap-1">
         <NuxtLink
           :to="`/blog/category/${item.slug}`"
-          class="text-orange-500 hover:text-gray-500"
+          :class="[
+            'hover:text-gray-500',
+            item.slug === currentSlug
+              ? 'text-orange-600 font-semibold'
+              : 'text-orange-500',
+          ]"
         >
           {{ item.name }}
         </NuxtLink>
+
         <div v-if="item.child" @click.stop="toggle" class="cursor-pointer">
           <span class="!text-gray-500 text-sm select-none">
             {{ isOpen ? "▲" : "▼" }}
@@ -70,6 +76,9 @@ onMounted(() => {
 function toggle() {
   isOpen.value = !isOpen.value;
 }
+const currentSlug = computed(
+  () => route.params.slug || route.path.split("/").pop()
+);
 </script>
 
 <style scoped>

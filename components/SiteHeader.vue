@@ -1,7 +1,7 @@
 <template>
   <div class="lg:pt-0 pt-[50px]">
     <header
-      class="lg:hidden block fixed h-[50px] top-0 left-0 bg-white w-full max-w-screen z-10"
+      class="lg:hidden block fixed h-[50px] top-0 left-0 bg-white w-full max-w-screen z-1000"
     >
       <div
         class="flex justify-between items-center gap-2 w-full h-full px-2 shadow-md"
@@ -181,7 +181,7 @@
             class="flex space-x-6 relative justify-center items-center"
           >
             <!-- Tài khoản -->
-            <NuxtLink to="dang-nhap">
+            <div>
               <div
                 class="flex items-center space-x-2 group cursor-pointer relative whitespace-nowrap"
               >
@@ -191,21 +191,23 @@
                     class="bg-black group-hover:bg-orange-500 text-white rounded p-3"
                   />
                 </div>
-                <div class="text-sm">
-                  <p
-                    class="font-semibold text-black group-hover:text-orange-500"
-                  >
-                    Tài khoản
-                  </p>
-                  <p class="text-gray-500">Đăng nhập / Đăng ký</p>
-                </div>
+                <NuxtLink to="dang-nhap"
+                  ><div class="text-sm">
+                    <p
+                      class="font-semibold text-black group-hover:text-orange-500"
+                    >
+                      Tài khoản
+                    </p>
+                    <p class="text-gray-500">Đăng nhập / Đăng ký</p>
+                  </div></NuxtLink
+                >
 
                 <!-- Dropdown khi hover -->
                 <div
                   class="absolute top-full left-0 pt-2 w-40 bg-white shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300 z-10 text-black"
                 >
                   <NuxtLink
-                    to="dang-ky"
+                    to="/dang-ky"
                     class="block px-4 py-2 hover:bg-gray-100 text-sm hover:text-orange-500"
                     >Đăng ký</NuxtLink
                   >
@@ -216,7 +218,7 @@
                   >
                 </div>
               </div>
-            </NuxtLink>
+            </div>
             <UPopover>
               <div
                 class="flex items-center space-x-2 group cursor-pointer w-[200px]"
