@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <!-- san pham -->
+    <!-- san pham lg -->
     <div class="lg:block hidden">
       <div class="flex justify-between items-center text-black my-8">
         <div class="text-2xl">Sản phẩm</div>
@@ -38,16 +38,22 @@
           <button
             v-for="(child, y) in item.childs"
             :key="y"
-            class="bg-gray-100 text-black hover:bg-orange-500 hover:text-white cursor-pointer px-4 py-2"
+            :class="[
+              'cursor-pointer px-4 rounded py-2',
+              route.query.sort === child.slug
+                ? 'bg-gray-300 text-black'
+                : 'bg-gray-100 hover:bg-orange-500 hover:text-white',
+            ]"
+            @click="handleSortChange(child)"
           >
-            <NuxtLink :to="child.slug">
+            <p>
               {{ child.name }}
-            </NuxtLink>
+            </p>
           </button>
         </div>
       </div>
     </div>
-
+    <!-- moblie -->
     <div class="lg:hidden block">
       <div class="flex flex-col text-black my-8">
         <div class="text-2xl">Sản phẩm</div>
@@ -315,11 +321,33 @@ const soft_type = ref("ban_chay");
 const selectedSort = ref(akas[0].childs[0]); // Mặc định là "Bán chạy"
 const showDropdown = ref(false);
 
+import { useRoute, useRouter } from "vue-router";
+const router = useRouter();
+const route = useRoute();
+
 const handleSortChange = (option: { name: string; slug: string }) => {
   selectedSort.value = option;
   soft_type.value = option.slug;
   showDropdown.value = false;
+
+  router.push({
+    query: {
+      ...route.query,
+      sort: option.slug,
+    },
+  });
 };
+
+onMounted(() => {
+  const currentSortSlug = route.query.sort || "ban-chay";
+  const foundSort = akas[0].childs.find(
+    (item) => item.slug === currentSortSlug
+  );
+  if (foundSort) {
+    selectedSort.value = foundSort;
+    soft_type.value = foundSort.slug;
+  }
+});
 </script>
 
 <style scoped>
