@@ -21,8 +21,8 @@
               v-if="name.items[0]"
               class="h-full shadow hover:shadow-lg transition group cursor-pointer relative rounded overflow-hidden"
             >
-              <img
-                :src="name.items[0].img"
+              <NuxtImg
+                :src="name.items[0].NuxtImg"
                 class="w-full h-full object-cover"
                 alt=""
               />
@@ -55,8 +55,8 @@
                 >
                   <NuxtLink :to="`/blog/${item.slug}`"
                     ><div class="relative w-full h-62 rounded overflow-hidden">
-                      <img
-                        :src="item.img"
+                      <NuxtImg
+                        :src="item.NuxtImg"
                         class="w-full h-full object-cover"
                         alt=""
                       />
@@ -88,8 +88,8 @@
               >
                 <NuxtLink :to="`/blog/${name.items[3].slug}`"
                   ><div class="relative w-full h-62 rounded overflow-hidden">
-                    <img
-                      :src="name.items[3].img"
+                    <NuxtImg
+                      :src="name.items[3].NuxtImg"
                       class="w-full h-full object-cover"
                       alt=""
                     />
@@ -128,8 +128,8 @@
             class="bg-white p-2 border rounded shadow hover:shadow-lg transition group cursor-pointer"
           >
             <NuxtLink :to="`/blog/${item.slug}`"
-              ><img
-                :src="item.img"
+              ><NuxtImg
+                :src="item.NuxtImg"
                 alt=""
                 class="w-full h-40 object-cover mb-2 group-hover:border border-orange-500"
               />
@@ -181,4 +181,12 @@ definePageMeta({
 const { categoryMenu } = useMockData();
 import { useRoute } from "vue-router";
 const route = useRoute();
+useSeoMeta({
+  title: "TDM - Blog thông tin hướng dẫn tư vấn khuyến mãi",
+  description: "",
+  ogTitle: "TDM - Blog thông tin hướng dẫn tư vấn khuyến mãi",
+  ogDescription: "",
+  ogImage: "",
+  twitterCard: "summary_large_image",
+});
 </script>

@@ -51,7 +51,7 @@
             <h2
               class="text-2xl font-semibold text-orange-500 border-b border-gray-200 py-4"
             >
-              Danh mục: {{ selectedCategory }}
+              Danh mục: {{ selectedCategory?.name }}
             </h2>
             <BlogContent :category="selectedCategory" :allItems="allItems" />
           </div>
@@ -160,25 +160,29 @@ const items = computed(() =>
 import { useRoute } from "vue-router";
 const route = useRoute();
 const selectedCategory = computed(() => {
-  const path = route.path;
-  const slug = path.split("/").filter(Boolean).pop();
+  const slug = route.path.split("/").filter(Boolean).pop();
 
-  function findCategoryName(menu) {
+  function findCategory(menu) {
     for (const group of menu) {
       if (group.child) {
         for (const item of group.child) {
-          if (item.slug === slug) return item.name;
+          if (item.slug === slug) return item;
           if (item.child) {
-            const subItem = item.child.find((sub) => sub.slug === slug);
-            if (subItem) return subItem.name;
+            for (const sub of item.child) {
+              if (sub.slug === slug) return sub;
+              if (sub.child) {
+                const subSub = sub.child.find((s) => s.slug === slug);
+                if (subSub) return subSub;
+              }
+            }
           }
         }
       }
     }
-    return "Không rõ danh mục";
+    return null;
   }
 
-  return findCategoryName(Categories);
+  return findCategory(Categories);
 });
 
 onMounted(() => {
@@ -206,42 +210,48 @@ const allItems = [
     name: "So sánh bồn cầu TOTO MS857 và MS885: Giá và chất lượng khác nhau thế nào?",
     category: "khuyen-mai",
     desc: "MS857 và MS885 đều là dòng bồn cầu cao cấp của TOTO. Vậy sự khác biệt nằm ở đâu?MS857 và MS885 đều là dòng bồn cầu cao cấp của TOTO. Vậy sự khác biệt nằm ở đâu?MS857 và MS885 đều là dòng bồn cầu cao cấp của TOTO. Vậy sự khác biệt nằm ở đâu?MS857 và MS885 đều là dòng bồn cầu cao cấp của TOTO. Vậy sự khác biệt nằm ở đâu? ",
-    img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2024/07/Thiet-ke-chua-co-ten-9-1.jpg",
+    NuxtImg:
+      "https://www.tdm.vn/thong-tin/wp-content/uploads/2024/07/Thiet-ke-chua-co-ten-9-1.jpg",
     slug: "km-thiet-bi-ve-sinh",
   },
   {
     name: "Top 5 vòi sen INAX bán chạy nhất tháng 6/2025",
     category: "thiet-bi-ve-sinh",
     desc: "Danh sách những mẫu vòi sen được ưa chuộng nhất hiện nay từ INAX.",
-    img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2024/07/Thiet-ke-chua-co-ten-9-1.jpg",
+    NuxtImg:
+      "https://www.tdm.vn/thong-tin/wp-content/uploads/2024/07/Thiet-ke-chua-co-ten-9-1.jpg",
     slug: "san-pham-inax",
   },
   {
     name: "Bồn rửa mặt Caesar LF5255: Có đáng tiền không?",
     category: "thiet-bi-ve-sinh",
     desc: "Đánh giá chi tiết mẫu lavabo Caesar LF5255, dòng sản phẩm bán chạy của hãng.",
-    img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2024/07/Thiet-ke-chua-co-ten-9-1.jpg",
+    NuxtImg:
+      "https://www.tdm.vn/thong-tin/wp-content/uploads/2024/07/Thiet-ke-chua-co-ten-9-1.jpg",
     slug: "san-pham-caesar",
   },
   {
     name: "Ưu đãi 20% tất cả sản phẩm INAX trong tháng 6!",
     category: "khuyen-mai",
     desc: "Chương trình khuyến mãi hấp dẫn nhất dành cho khách hàng mua thiết bị INAX.",
-    img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2024/07/Thiet-ke-chua-co-ten-9-1.jpg",
+    NuxtImg:
+      "https://www.tdm.vn/thong-tin/wp-content/uploads/2024/07/Thiet-ke-chua-co-ten-9-1.jpg",
     slug: "km-inax",
   },
   {
     name: "Cách chọn gạch lát nền chống trơn phù hợp cho nhà tắm",
     category: "kien-thuc-xay-dung",
     desc: "Hướng dẫn chi tiết giúp bạn chọn đúng loại gạch an toàn và đẹp mắt cho phòng tắm.",
-    img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2024/07/Thiet-ke-chua-co-ten-9-1.jpg",
+    NuxtImg:
+      "https://www.tdm.vn/thong-tin/wp-content/uploads/2024/07/Thiet-ke-chua-co-ten-9-1.jpg",
     slug: "kien-thuc-xay-dung",
   },
   {
     name: "So sánh vòi rửa chén nóng lạnh TOTO và INAX: Nên chọn hãng nào?",
     category: "thiet-bi-nha-bep",
     desc: "Phân tích các yếu tố chất lượng, giá và bảo hành giữa hai thương hiệu lớn.",
-    img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2024/07/Thiet-ke-chua-co-ten-9-1.jpg",
+    NuxtImg:
+      "https://www.tdm.vn/thong-tin/wp-content/uploads/2024/07/Thiet-ke-chua-co-ten-9-1.jpg",
     slug: "thiet-bi-nha-bep",
   },
 ];
@@ -266,6 +276,18 @@ const flattenedCategories = computed(() =>
     return [item];
   })
 );
+useSeoMeta({
+  title: () =>
+    selectedCategory.value?.title ??
+    `${selectedCategory.value?.name ?? "Danh mục"} - TDM Tuấn Đức`,
+  ogTitle: () =>
+    selectedCategory.value?.title ??
+    `${selectedCategory.value?.name ?? "Danh mục"} - TDM Tuấn Đức`,
+  description: () =>
+    `Tổng hợp các bài viết về ${
+      selectedCategory.value?.name ?? "danh mục"
+    } được TDM Tuấn Đức chia sẻ.`,
+});
 </script>
 <style scoped>
 .relative > .udropdownmenu {

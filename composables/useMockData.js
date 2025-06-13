@@ -6,32 +6,36 @@ export const useMockData = () => {
       name: "Bài viết mới nhất",
       items: [
         {
-          img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/05/chau-rua-chen-hafele.jpg",
+          NuxtImg:
+            "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/05/chau-rua-chen-hafele.jpg",
           title:
-            "1Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua",
+            "Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Muaaksdjns;aksdjnsaljds';a",
           currentTime: "13-03-2025",
           slug: "chau-rua-chen-hafele-chat-lieu-da-dang-thiet-ke-thong-minh-kinh-nghiem-chon-mua",
         },
         {
-          img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/05/chau-rua-chen-hafele.jpg",
+          NuxtImg:
+            "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/05/chau-rua-chen-hafele.jpg",
           title:
-            "2Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua",
+            "Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua",
           currentTime: "13-03-2025",
           slug: "chau-rua-chen-hafele-chat-lieu-da-dang-thiet-ke-thong-minh-kinh-nghiem-chon-mua",
         },
         {
-          img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/05/chau-rua-chen-hafele.jpg",
+          NuxtImg:
+            "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/05/chau-rua-chen-hafele.jpg",
           title:
-            "3Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua",
+            "Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua",
           currentTime: "13-03-2025",
           slug: "chau-rua-chen-hafele-chat-lieu-da-dang-thiet-ke-thong-minh-kinh-nghiem-chon-mua",
         },
         {
-          img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/04/nguyen-nhan-va-cach-khac-phuc-bon-cau-khong-troi-768x576.jpg",
+          NuxtImg:
+            "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/04/nguyen-nhan-va-cach-khac-phuc-bon-cau-khong-troi-768x576.jpg",
           title:
-            "44Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua",
+            "Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua",
           currentTime: "13-03-2025",
-          slug: "44chau-rua-chen-hafele-chat-lieu-da-dang-thiet-ke-thong-minh-kinh-nghiem-chon-mua",
+          slug: "chau-rua-chen-hafele-chat-lieu-da-dang-thiet-ke-thong-minh-kinh-nghiem-chon-mua",
         },
       ],
     },
@@ -49,38 +53,43 @@ export const useMockData = () => {
       items: [
         {
           title:
-            "So sánh bồn cầu 1 khối Toto MS857/C875D với MS885/C885D và MS855/C855D: Tại sao giá rẻ hơn và có nên mua?",
+            "So sánh bồn cầu 1 khối Toto11 MS857/C875D với MS885/C885D và MS855/C855D: Tại sao giá rẻ hơn và có nên mua?",
           currentTime: "13-03-2025",
           slug: "so-sanh-bon-cau-1-khoi-toto-ms857-c875d-voi-ms885-c885d-va-ms855-c855d-tai-sao-gia-re-hon-va-co-nen-mua",
-          img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
+          NuxtImg:
+            "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
         },
         {
           title:
-            "So sánh bồn cầu 1 khối Toto MS857/C875D với MS885/C885D và MS855/C855D: Tại sao giá rẻ hơn và có nên mua?",
+            "So sánh bồn cầu 1 khối Toto22 MS857/C875D với MS885/C885D và MS855/C855D: Tại sao giá rẻ hơn và có nên mua?",
           currentTime: "13-03-2025",
           slug: "so-sanh-bon-cau-1-khoi-toto-ms857-c875d-voi-ms885-c885d-va-ms855-c855d-tai-sao-gia-re-hon-va-co-nen-mua",
-          img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
+          NuxtImg:
+            "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
         },
         {
           title:
-            "So sánh bồn cầu 1 khối Toto MS857/C875D với MS885/C885D và MS855/C855D: Tại sao giá rẻ hơn và có nên mua?",
+            "So sánh bồn cầu 1 khối Toto33 MS857/C875D với MS885/C885D và MS855/C855D: Tại sao giá rẻ hơn và có nên mua?",
           currentTime: "13-03-2025",
           slug: "so-sanh-bon-cau-1-khoi-toto-ms857-c875d-voi-ms885-c885d-va-ms855-c855d-tai-sao-gia-re-hon-va-co-nen-mua",
-          img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
+          NuxtImg:
+            "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
         },
         {
           title:
-            "So sánh bồn cầu 1 khối Toto MS857/C875D với MS885/C885D và MS855/C855D: Tại sao giá rẻ hơn và có nên mua?",
+            "So sánh bồn cầu 1 khối Toto44 MS857/C875D với MS885/C885D và MS855/C855D: Tại sao giá rẻ hơn và có nên mua?",
           currentTime: "13-03-2025",
           slug: "so-sanh-bon-cau-1-khoi-toto-ms857-c875d-voi-ms885-c885d-va-ms855-c855d-tai-sao-gia-re-hon-va-co-nen-mua",
-          img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
+          NuxtImg:
+            "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
         },
         {
           title:
-            "So sánh bồn cầu 1 khối Toto MS857/C875D với MS885/C885D và MS855/C855D: Tại sao giá rẻ hơn và có nên mua?",
+            "So sánh bồn cầu 1 khối Toto5 MS857/C875D với MS885/C885D và MS855/C855D: Tại sao giá rẻ hơn và có nên mua?",
           currentTime: "13-03-2025",
           slug: "so-sanh-bon-cau-1-khoi-toto-ms857-c875d-voi-ms885-c885d-va-ms855-c855d-tai-sao-gia-re-hon-va-co-nen-mua",
-          img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
+          NuxtImg:
+            "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
         },
       ],
     },
@@ -88,14 +97,16 @@ export const useMockData = () => {
       name: "Thiết bị bếp",
       items: [
         {
-          img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
+          NuxtImg:
+            "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
           title:
             "So sánh bồn cầu 1 khối Toto MS857/C875D với MS885/C885D và MS855/C855D: Tại sao giá rẻ hơn và có nên mua?",
           currentTime: "13-03-2025",
           slug: "so-sanh-bon-cau-1-khoi-toto-ms857-c875d-voi-ms885-c885d-va-ms855-c855d-tai-sao-gia-re-hon-va-co-nen-mua",
         },
         {
-          img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
+          NuxtImg:
+            "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
           title:
             "So sánh bồn cầu 1 khối Toto MS857/C875D với MS885/C885D và MS855/C855D: Tại sao giá rẻ hơn và có nên mua?",
           currentTime: "13-03-2025",
@@ -111,7 +122,8 @@ export const useMockData = () => {
     },
     {
       name: "Thiết bị nước",
-      img: "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
+      NuxtImg:
+        "https://www.tdm.vn/thong-tin/wp-content/uploads/2025/03/so-sanh-bon-cau-ms857-voims885-ms855-768x576.jpg",
       items: "",
       slug: "thiet-bi-nuoc",
       child: [
@@ -171,23 +183,23 @@ export const useMockData = () => {
       name: "bài viết mới",
       child: [
         {
-          name: "Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 11 Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 11Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 11",
+          name: "11Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 11 Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 11Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 11",
           slug: "chau-rua-chen-hafele-chat-lieu-da-dang-thiet-ke-thong-minh-kinh-nghiem-chon-mua",
         },
         {
-          name: "Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 2 Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 112",
+          name: "22Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 2 Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 112",
           slug: "chau-rua-chen-hafele-chat-lieu-da-dang-thiet-ke-thong-minh-kinh-nghiem-chon-mua-2",
         },
         {
-          name: "Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 3 Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 113",
+          name: "33Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 3 Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 113",
           slug: "chau-rua-chen-hafele-chat-lieu-da-dang-thiet-ke-thong-minh-kinh-nghiem-chon-mua-3",
         },
         {
-          name: "Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua4 Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 11 ",
+          name: "44Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua4 Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 11 ",
           slug: "chau-rua-chen-hafele-chat-lieu-da-dang-thiet-ke-thong-minh-kinh-nghiem-chon-mua-4",
         },
         {
-          name: "Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua55 Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 11",
+          name: "5Chậu Rửa Chén Hafele: Chất Liệu Đa Dạng (Đá, Inox), Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua55 Thiết Kế Thông Minh và Kinh Nghiệm Chọn Mua 11",
           slug: "chau-rua-chen-hafele-chat-lieu-da-dang-thiet-ke-thong-minh-kinh-nghiem-chon-mua-5",
         },
       ],
@@ -198,6 +210,7 @@ export const useMockData = () => {
         {
           name: "Thiết Bị Vệ Sinh",
           slug: "thiet-bi-ve-sinh",
+          title: "Hướng dẫn tư vấn cách chọn thiết bị vệ sinh - TDM Tuấn Đức",
           child: [
             {
               name: "Bồn cầu",
@@ -213,6 +226,7 @@ export const useMockData = () => {
         },
         {
           name: "Thiết Bị Bếp",
+          title: "Hướng dẫn tư vấn cách chọn thiết bị Bếp  - TDM Tuấn Đức",
           slug: "thiet-bi-bep",
           child: [
             { name: "Bếp gas", slug: "bep-gas" },
@@ -222,6 +236,7 @@ export const useMockData = () => {
         },
         {
           name: "Thiết Bị Nước",
+          title: "Hướng dẫn tư vấn cách chọn thiết bị Nước  - TDM Tuấn Đức",
           slug: "thiet-bi-nuoc",
           child: [
             { name: "Máy lọc nước", slug: "may-loc-nuoc" },
@@ -230,6 +245,7 @@ export const useMockData = () => {
         },
         {
           name: "Thiết Bị Khóa Cửa",
+          title: "Hướng dẫn tư vấn cách chọn thiết bị Khóa Cửa - TDM Tuấn Đức",
           slug: "thiet-bi-khoa-cua",
           child: [
             { name: "Khóa vân tay", slug: "khoa-van-tay" },
@@ -238,6 +254,8 @@ export const useMockData = () => {
         },
         {
           name: "Báo Giá",
+          title:
+            "Báo Giá Hướng dẫn tư vấn cách chọn thiết bị vệ sinh - TDM Tuấn Đức",
           slug: "bao-gia",
           child: [
             {
@@ -252,6 +270,8 @@ export const useMockData = () => {
         },
         {
           name: "Khuyến Mãi",
+          title:
+            "Khuyến Mãi Hướng dẫn tư vấn cách chọn thiết bị vệ sinh - TDM Tuấn Đức",
           slug: "khuyen-mai",
           child: [
             {
@@ -275,6 +295,8 @@ export const useMockData = () => {
 
         {
           name: "Catalogue",
+          title:
+            "Catalogue Hướng dẫn tư vấn cách chọn thiết bị vệ sinh - TDM Tuấn Đức",
           slug: "catalogue",
           child: [
             {
@@ -289,6 +311,8 @@ export const useMockData = () => {
         },
         {
           name: "Hỏi Đáp",
+          title:
+            "Hỏi đáp hướng dẫn tư vấn cách chọn thiết bị vệ sinh - TDM Tuấn Đức",
           slug: "hoi-dap",
           child: [
             {

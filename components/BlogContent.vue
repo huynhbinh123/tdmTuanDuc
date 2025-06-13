@@ -15,8 +15,8 @@
               class="group block w-full h-full"
             >
               <div class="relative w-full h-full">
-                <img
-                  :src="item.img"
+                <NuxtImg
+                  :src="item.NuxtImg"
                   alt=""
                   class="w-full h-full object-cover group-hover:opacity-80 transition duration-300"
                 />

@@ -14,7 +14,7 @@
             @select="onSelect"
             class="w-full shadow-lg px-10"
           >
-            <img :src="item" class="rounded-lg w-full" />
+            <NuxtImg :src="item" class="rounded-lg w-full" />
           </UCarousel>
 
           <button
@@ -53,7 +53,7 @@
               }"
               @click="select(index + thumbScrollIndex)"
             >
-              <img
+              <NuxtImg
                 :src="item"
                 class="w-full h-full object-cover border rounded-lg"
               />
@@ -112,7 +112,7 @@
           </div>
           <div>
             <NuxtLink :to="brand.slug" class="gap-2 mt-4">
-              <img
+              <NuxtImg
                 :src="brand.image"
                 alt="Brand Logo"
                 class="w-40 h-auto object-contain"
@@ -223,7 +223,7 @@
             class="text-black p-2 rounded-lg items-center text-center flex-col bg-gray-100 relative"
           >
             <div class="flex items-center">
-              <img :src="i.image" class="w-[40px] h-[25px] mr-2" />
+              <NuxtImg :src="i.image" class="w-[40px] h-[25px] mr-2" />
               <p class="text-gray-500 mt-2">{{ i.decs }}</p>
             </div>
           </div>
@@ -651,7 +651,8 @@ const cartItems = ref<CartItem[]>([]);
 const showromms = [
   {
     name: "TDM center",
-    img: "https://www.tdm.vn/catalog/view/theme/default/image/logo-tdm-icon.svg",
+    NuxtImg:
+      "https://www.tdm.vn/catalog/view/theme/default/image/logo-tdm-icon.svg",
     address: " 203 QL1A, kp Bình Đường 3, P. An Bình, TP. Dĩ An, Bình Dương",
     mapLink:
       "https://www.google.com/maps/place/TDM+Tu%E1%BA%A5n+%C4%90%E1%BB%A9c/@10.8746265,106.7507332,15z/data=!4m6!3m5!1s0x3174d9097a8b5259:0x84de3a69da85853c!8m2!3d10.8746265!4d106.7507332!16s%2Fg%2F11j0ykg38j?sa=X&hl=vi&ved=2ahUKEwi00pHWi-78AhWGVmwGHeJJCJEQ_BJ6BAhLEAk&coh=164777&entry=tt&shorturl=1",
@@ -661,7 +662,8 @@ const showromms = [
   },
   {
     name: "TDM center",
-    img: "https://www.tdm.vn/catalog/view/theme/default/image/logo-tdm-icon.svg",
+    NuxtImg:
+      "https://www.tdm.vn/catalog/view/theme/default/image/logo-tdm-icon.svg",
     address: " 203 QL1A, kp Bình Đường 3, P. An Bình, TP. Dĩ An, Bình Dương",
     mapLink:
       "https://www.google.com/maps/place/TDM+Tu%E1%BA%A5n+%C4%90%E1%BB%A9c/@10.8746265,106.7507332,15z/data=!4m6!3m5!1s0x3174d9097a8b5259:0x84de3a69da85853c!8m2!3d10.8746265!4d106.7507332!16s%2Fg%2F11j0ykg38j?sa=X&hl=vi&ved=2ahUKEwi00pHWi-78AhWGVmwGHeJJCJEQ_BJ6BAhLEAk&coh=164777&entry=tt&shorturl=1",
@@ -671,7 +673,8 @@ const showromms = [
   },
   {
     name: "TDM center",
-    img: "https://www.tdm.vn/catalog/view/theme/default/image/logo-tdm-icon.svg",
+    NuxtImg:
+      "https://www.tdm.vn/catalog/view/theme/default/image/logo-tdm-icon.svg",
     address: " 203 QL1A, kp Bình Đường 3, P. An Bình, TP. Dĩ An, Bình Dương",
     mapLink:
       "https://www.google.com/maps/place/TDM+Tu%E1%BA%A5n+%C4%90%E1%BB%A9c/@10.8746265,106.7507332,15z/data=!4m6!3m5!1s0x3174d9097a8b5259:0x84de3a69da85853c!8m2!3d10.8746265!4d106.7507332!16s%2Fg%2F11j0ykg38j?sa=X&hl=vi&ved=2ahUKEwi00pHWi-78AhWGVmwGHeJJCJEQ_BJ6BAhLEAk&coh=164777&entry=tt&shorturl=1",
@@ -681,7 +684,8 @@ const showromms = [
   },
   {
     name: "TDM center",
-    img: "https://www.tdm.vn/catalog/view/theme/default/image/logo-tdm-icon.svg",
+    NuxtImg:
+      "https://www.tdm.vn/catalog/view/theme/default/image/logo-tdm-icon.svg",
     address: " 203 QL1A, kp Bình Đường 3, P. An Bình, TP. Dĩ An, Bình Dương",
     mapLink:
       "https://www.google.com/maps/place/TDM+Tu%E1%BA%A5n+%C4%90%E1%BB%A9c/@10.8746265,106.7507332,15z/data=!4m6!3m5!1s0x3174d9097a8b5259:0x84de3a69da85853c!8m2!3d10.8746265!4d106.7507332!16s%2Fg%2F11j0ykg38j?sa=X&hl=vi&ved=2ahUKEwi00pHWi-78AhWGVmwGHeJJCJEQ_BJ6BAhLEAk&coh=164777&entry=tt&shorturl=1",
@@ -691,7 +695,8 @@ const showromms = [
   },
   {
     name: "TDM center",
-    img: "https://www.tdm.vn/catalog/view/theme/default/image/logo-tdm-icon.svg",
+    NuxtImg:
+      "https://www.tdm.vn/catalog/view/theme/default/image/logo-tdm-icon.svg",
     address: " 203 QL1A, kp Bình Đường 3, P. An Bình, TP. Dĩ An, Bình Dương",
     mapLink:
       "https://www.google.com/maps/place/TDM+Tu%E1%BA%A5n+%C4%90%E1%BB%A9c/@10.8746265,106.7507332,15z/data=!4m6!3m5!1s0x3174d9097a8b5259:0x84de3a69da85853c!8m2!3d10.8746265!4d106.7507332!16s%2Fg%2F11j0ykg38j?sa=X&hl=vi&ved=2ahUKEwi00pHWi-78AhWGVmwGHeJJCJEQ_BJ6BAhLEAk&coh=164777&entry=tt&shorturl=1",
@@ -701,7 +706,8 @@ const showromms = [
   },
   {
     name: "TDM center ",
-    img: "https://www.tdm.vn/catalog/view/theme/default/image/logo-tdm-icon.svg",
+    NuxtImg:
+      "https://www.tdm.vn/catalog/view/theme/default/image/logo-tdm-icon.svg",
     address: " 203 QL1A, kp Bình Đường 3, P. An Bình, TP. Dĩ An, Bình Dương",
     mapLink:
       "https://www.google.com/maps/place/TDM+Tu%E1%BA%A5n+%C4%90%E1%BB%A9c/@10.8746265,106.7507332,15z/data=!4m6!3m5!1s0x3174d9097a8b5259:0x84de3a69da85853c!8m2!3d10.8746265!4d106.7507332!16s%2Fg%2F11j0ykg38j?sa=X&hl=vi&ved=2ahUKEwi00pHWi-78AhWGVmwGHeJJCJEQ_BJ6BAhLEAk&coh=164777&entry=tt&shorturl=1",

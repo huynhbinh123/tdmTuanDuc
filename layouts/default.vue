@@ -20,7 +20,7 @@
               class="cursor-pointer flex items-center justify-start lg:gap-2 bg-white lg:rounded-3xl rounded-full lg:px-2 px-1 py-1 shadow-2xl"
             >
               <div class="lg:w-[40px]">
-                <img
+                <NuxtImg
                   :src="item.image"
                   class="rounded-full lg:w-[40px] w-[30px] lg:h-[40px] h-[30px]"
                 />

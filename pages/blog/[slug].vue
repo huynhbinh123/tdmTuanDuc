@@ -261,12 +261,14 @@
                 :key="index"
                 class="text-orange-500 hover:text-gray-700 leading-snug"
               >
-                <NuxtLink
-                  :to="`/blog/${child.slug}`"
-                  class="text-inherit no-underline hover:text-gray-700 line-clamp-2"
-                >
-                  {{ child.name }}
-                </NuxtLink>
+                <template>
+                  <span
+                    class="text-inherit no-underline hover:text-gray-700 line-clamp-2 cursor-pointer"
+                    @click="handleClick(child.name, child.slug)"
+                  >
+                    {{ child.name }}
+                  </span>
+                </template>
               </li>
             </ul>
 
@@ -286,9 +288,11 @@
   </UContainer>
 </template>
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { ref, computed, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useSeoMeta } from "#imports";
 import { useMockData } from "~/composables/useMockData";
+import TreeNavItem from "~/components/TreeNavItem.vue";
 
 interface CategoryItem {
   name: string;
@@ -300,6 +304,7 @@ const { categoryMenu, Categories } = useMockData();
 
 const hoverIndex = ref<number | null>(null);
 const route = useRoute();
+const router = useRouter();
 
 const selectedCategory = computed(() => {
   const path = route.path;
@@ -344,6 +349,7 @@ const selectedCategory = computed(() => {
 
 const expandedIndexMobile = ref<number | null>(null);
 const expandedIndex = ref<number | null>(null);
+
 onMounted(() => {
   for (let i = 0; i < Categories.length; i++) {
     const group = Categories[i];
@@ -414,7 +420,6 @@ const submitReview = () => {
 
   if (Object.keys(errors.value).length === 0) {
     console.log("Dữ liệu người dùng nhập:", form.value);
-    // Reset form nếu cần:
     form.value = {
       name: "",
       email: "",
@@ -423,8 +428,6 @@ const submitReview = () => {
     };
   }
 };
-
-import TreeNavItem from "~/components/TreeNavItem.vue";
 
 interface TreeNavItemType {
   name: string;
@@ -444,4 +447,43 @@ const flattenedCategories = computed<TreeNavItemType[]>(() =>
     return [item as TreeNavItemType];
   })
 );
+
+// SEO Meta Title
+const seoTitle = ref("Danh mục");
+
+useSeoMeta({
+  title: () => seoTitle.value || "Danh mục",
+});
+
+// Tự động cập nhật tiêu đề theo route
+watch(
+  () => route.params.slug,
+  (slug) => {
+    if (!slug) return;
+
+    for (const group of Categories) {
+      for (const child of group.child || []) {
+        if (child.slug === slug) {
+          seoTitle.value = child.name;
+          return;
+        }
+        if ("child" in child && Array.isArray(child.child)) {
+          const sub = child.child.find((s) => s.slug === slug);
+          if (sub) {
+            seoTitle.value = sub.name;
+            return;
+          }
+        }
+      }
+    }
+
+    seoTitle.value = "Danh mục";
+  },
+  { immediate: true }
+);
+
+// Chuyển trang khi click danh mục
+function handleClick(name: string, slug: string) {
+  router.push(`/blog/${slug}`);
+}
 </script>

@@ -29,7 +29,7 @@
                   class="border-b"
                 >
                   <td class="p-2 border">
-                    <img
+                    <NuxtImg
                       :src="item.image"
                       alt=""
                       class="w-12 h-12 object-cover rounded border border-gray-300 mx-auto"

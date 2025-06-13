@@ -18,7 +18,7 @@
               class="w-full cursor-pointer"
               @select="onSelect"
             >
-              <img :src="item" class="rounded-lg" />
+              <NuxtImg :src="item" class="rounded-lg w-full" />
             </UCarousel>
 
             <div class="grid grid-cols-4 cols-span-6 gap-4 mt-4">
@@ -56,7 +56,7 @@
               @select="onSelect"
             >
               >
-              <img :src="item" class="rounded-lg" />
+              <NuxtImg :src="item" class="rounded-lg" />
             </UCarousel>
 
             <div class="mt-4">
@@ -84,7 +84,7 @@
           :key="index"
           class="text-black border-b-4 border-b-orange-600 p-2 rounded-lg items-center text-center flex-col bg-orange-100 relative mt-10 lg:block hidden"
         >
-          <img
+          <NuxtImg
             :src="i.image"
             class="lg:w-[80px] lg:h-[50px] absolute -top-6 z-10 right-26"
           />
@@ -102,7 +102,7 @@
           >
             <div class="flex gap-4">
               <div class="flex items-center justify-center">
-                <img
+                <NuxtImg
                   :src="i.image"
                   width="100"
                   class="lg:size-20 w-[100px] h-auto"
@@ -147,7 +147,7 @@
               class="transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl hover:rounded-lg hover:bg-white overflow-hidden"
             >
               <NuxtLink :to="`/${b.slug}`" class="flex flex-wrap">
-                <img
+                <NuxtImg
                   :src="b.image"
                   alt=""
                   class="hover:border cursor-pointer lg:w-[128px] w-[100px] lg:h-[80px] h-[30px] object-cover rounded-lg"
@@ -365,4 +365,13 @@ const categoryName = [
     decs: "Giá thành tốt nhất thị trường",
   },
 ];
+useSeoMeta({
+  title:
+    "TDM Tuấn Đức - Hệ thống showroom thiết bị vệ sinh, bếp, điện nước hàng đầu",
+  description:
+    "Mua sắm thiết bị vệ sinh, điện, nước chính hãng, giá tốt nhất 2025.",
+  ogTitle: "TDM - Thiết bị vệ sinh chính hãng",
+  ogImage: items[0],
+  twitterCard: "summary_large_image",
+});
 </script>

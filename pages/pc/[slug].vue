@@ -348,6 +348,13 @@ onMounted(() => {
     soft_type.value = foundSort.slug;
   }
 });
+useSeoMeta({
+  title: "Bồn cầu TOTO chính hãng - TDM Tuấn Đức",
+  description: "Sản phẩm chính hãng, bảo hành toàn quốc, lắp đặt miễn phí.",
+  ogTitle: "Bồn cầu TOTO chính hãng - TDM Tuấn Đức",
+  ogDescription: "Sản phẩm chính hãng, bảo hành toàn quốc, lắp đặt miễn phí.",
+  ogImage: "https://www.tdm.vn/image/logo.jpg",
+});
 </script>
 
 <style scoped>

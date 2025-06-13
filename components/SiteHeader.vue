@@ -79,7 +79,7 @@
           </USlideover>
 
           <NuxtLink to="/">
-            <img
+            <NuxtImg
               src="https://www.tdm.vn/image/catalog/global/logo.svg"
               class="w-[100px]"
             />
@@ -148,7 +148,7 @@
         >
           <!-- Logo -->
           <NuxtLink to="/" class="">
-            <img
+            <NuxtImg
               src="https://www.tdm.vn/image/catalog/global/logo.svg"
               alt="Logo"
               class="w-[160px]"
@@ -261,7 +261,7 @@
                         :key="idx"
                         class="flex items-center gap-3 py-2 border-b last:border-b-0"
                       >
-                        <img
+                        <NuxtImg
                           :src="item.image"
                           alt=""
                           class="w-12 h-12 object-cover rounded"
@@ -605,6 +605,9 @@ const categoryMenu: Category[] = [
     ],
   },
 ];
+// const config = useRuntimeConfig();
+// const res = await $fetch(`${config.public.apiBase}/categoryMenu`);
+
 const showCart = ref(false);
 
 const toggleCart = () => {

@@ -4,12 +4,15 @@
 
     <div class="flex flex-col gap-2 mt-10">
       <h3 class="text-black text-4xl font-semibold">Đăng Ký Tài Khoản</h3>
-      <p class="text-black/80">
+      <div class="text-black/80">
         Nếu bạn đã đăng ký tài khoản, vui lòng đăng nhập
         <NuxtLink to="dang-nhap" class="text-orange-400">Tại Đây.</NuxtLink>
         <p class="text-black/80">
-        <span class="text-black/80 font-bold">Lưu ý:</span> Các mục dấu sao <span class="text-black/80 font-bold">màu đỏ</span> không được bỏ trống & phải điền đầy đủ, chính xác</p>
-      </p>
+          <span class="text-black/80 font-bold">Lưu ý:</span> Các mục dấu sao
+          <span class="text-black/80 font-bold">màu đỏ</span> không được bỏ
+          trống & phải điền đầy đủ, chính xác
+        </p>
+      </div>
 
       <form @submit.prevent="handleSubmit">
         <div v-for="group in userForm" :key="group.group" class="mb-6">
@@ -49,8 +52,8 @@
   </UContainer>
 </template>
 <script setup lang="ts">
-import { useMockUserForm } from '~/composables/useMockData'
-const userForm = useMockUserForm()
+import { useMockUserForm } from "~/composables/useMockData";
+const userForm = useMockUserForm();
 type FormField =
   | "firstName"
   | "lastName"
