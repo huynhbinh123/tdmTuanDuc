@@ -40,9 +40,16 @@
   </div>
 </template>
 
-<script setup>
-defineProps({
-  category: String,
-  allItems: Array,
-});
+<script setup lang="ts">
+interface BlogItem {
+  slug: string;
+  NuxtImg: string;
+  name: string;
+  desc: string;
+}
+
+defineProps<{
+  category?: string;
+  allItems: BlogItem[];
+}>();
 </script>

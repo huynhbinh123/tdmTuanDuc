@@ -135,4 +135,7 @@ const totalCartPrice = computed(() =>
 function removeFromCart(index: number) {
   cartItems.value.splice(index, 1);
 }
+definePageMeta({
+  middleware: "auth",
+});
 </script>

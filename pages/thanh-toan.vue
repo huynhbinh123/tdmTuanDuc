@@ -404,6 +404,10 @@ const removeProduct = (index: number) => {
     orderSummaryGroup.value.products.splice(index, 1);
   }
 };
+
+definePageMeta({
+  middleware: "auth",
+});
 </script>
 
 <style scoped>

@@ -1,5 +1,4 @@
 <template>
-  <div class="relative">
     <div class="flex flex-col min-h-screen text-white font-sans relative">
       <SiteHeader />
 
@@ -39,7 +38,6 @@
       </div>
       <SiteFooter />
     </div>
-  </div>
 </template>
 
 <script lang="ts" setup>

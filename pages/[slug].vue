@@ -476,7 +476,14 @@
 <script lang="ts" setup>
 const cart = useCart() as Ref<CartItem[]>;
 
-function addSampleProduct() {
+const auth = useAuthStore();
+const router = useRouter();
+
+const addSampleProduct = () => {
+  if (!auth.loggedIn) {
+    return router.push("/dang-nhap");
+  }
+
   cart.value.push({
     name: "Vòi Hoa Sen Inax BFV-1403S-4C (BFV1403S4C) Nóng Lạnh",
     quantity: 1,
@@ -485,7 +492,7 @@ function addSampleProduct() {
       "https://www.tdm.vn/image/cachewebp/catalog/product-3935/sen-tam-nong-lanh-inax-BFV-1403S-4C-47x47.webp",
   });
   console.log(cart.value);
-}
+};
 
 const product = {
   name: "Bồn Cầu TOTO MS885DT8 Một Khối Nắp TC600VS",
@@ -787,6 +794,13 @@ function select(index: number) {
   activeIndex.value = index;
 
   carousel.value?.emblaApi?.scrollTo(index);
+}
+
+function useAuthStore() {
+  // Dummy implementation for demonstration; replace with your actual auth logic
+  return {
+    loggedIn: false, // or true, depending on your authentication state
+  };
 }
 </script>
 
