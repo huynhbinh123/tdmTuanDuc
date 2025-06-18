@@ -215,8 +215,13 @@ export const useMockData = () => {
             {
               name: "Bồn cầu",
               slug: "bon-cau",
+              title: "Hướng dẫn tư vấn cách chọn bồn cầu - TDM Tuấn Đức",
               child: [
-                { name: "Chậu rửa", slug: "chau-rua" },
+                {
+                  name: "Chậu rửa",
+                  slug: "chau-rua",
+                  title: "Hướng dẫn tư vấn cách chọn chậu rửa - TDM Tuấn Đức",
+                },
                 { name: "Vòi sen", slug: "voi-sen" },
               ],
             },

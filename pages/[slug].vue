@@ -797,9 +797,8 @@ function select(index: number) {
 }
 
 function useAuthStore() {
-  // Dummy implementation for demonstration; replace with your actual auth logic
   return {
-    loggedIn: false, // or true, depending on your authentication state
+    loggedIn: false,
   };
 }
 </script>

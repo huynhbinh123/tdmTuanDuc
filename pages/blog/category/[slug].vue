@@ -276,17 +276,9 @@ const flattenedCategories = computed(() =>
     return [item];
   })
 );
+
 useSeoMeta({
-  title: () =>
-    selectedCategory.value?.title ??
-    `${selectedCategory.value?.name ?? "Danh mục"} - TDM Tuấn Đức`,
-  ogTitle: () =>
-    selectedCategory.value?.title ??
-    `${selectedCategory.value?.name ?? "Danh mục"} - TDM Tuấn Đức`,
-  description: () =>
-    `Tổng hợp các bài viết về ${
-      selectedCategory.value?.name ?? "danh mục"
-    } được TDM Tuấn Đức chia sẻ.`,
+  title: () => selectedCategory.value?.title || "Danh mục",
 });
 </script>
 <style scoped>
