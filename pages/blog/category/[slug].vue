@@ -277,8 +277,19 @@ const flattenedCategories = computed(() =>
   })
 );
 
+// useSeoMeta({
+//   title: () => selectedCategory.value?.title || "Danh mục",
+// });
+
+const { data } = await useAsyncData("category", () =>
+  $fetch(`/api/category/${route.params.slug}`)
+);
+
 useSeoMeta({
-  title: () => selectedCategory.value?.title || "Danh mục",
+  title: () => data.value?.title || "Blog",
+  description: () => data.value?.description || "Danh mục blog",
+  ogTitle: () => data.value?.title,
+  ogDescription: () => data.value?.description,
 });
 </script>
 <style scoped>

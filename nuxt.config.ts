@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxtjs/tailwindcss",
     "@nuxt/image",
+    "@nuxtjs/robots",
     "@pinia/nuxt",
     "@nuxtjs/sitemap",
     "@nuxtjs/i18n",

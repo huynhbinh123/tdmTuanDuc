@@ -1,5 +1,31 @@
 <template>
   <UContainer>
+    <div class="max-w-2xl mx-auto py-10">
+      <h1 class="text-2xl font-bold mb-6">Danh sách bài viết</h1>
+
+      <!-- 🔄 Khung loading -->
+      <div v-if="pending">
+        <div v-for="n in 3" :key="n" class="animate-pulse mb-6">
+          <div class="h-5 bg-gray-300 rounded w-1/2 mb-2"></div>
+          <div class="h-4 bg-gray-200 rounded w-full"></div>
+        </div>
+      </div>
+
+      <!-- ✅ Dữ liệu đã load -->
+      <ul v-else>
+        <li
+          v-for="post in data"
+          :key="post.id"
+          class="mb-4 p-4 border rounded hover:bg-gray-50 transition"
+        >
+          <h2 class="font-semibold text-lg">{{ post.title }}</h2>
+          <p class="text-gray-600 text-sm">{{ post.description }}</p>
+        </li>
+      </ul>
+
+      <!-- ❌ Nếu có lỗi -->
+      <p v-if="error" class="text-red-600 mt-4">Không tải được bài viết.</p>
+    </div>
     <div class="border-b-2 border-gray-300">
       <div v-for="(name, index) in categoryMenu" :key="index">
         <div class="mt-10">
@@ -188,5 +214,12 @@ useSeoMeta({
   ogDescription: "",
   ogImage: "",
   twitterCard: "summary_large_image",
+});
+
+const { data, pending, error } = await useLazyFetch("/api/posts", {
+  transform: async (data) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // Delay 2s
+    return data;
+  },
 });
 </script>

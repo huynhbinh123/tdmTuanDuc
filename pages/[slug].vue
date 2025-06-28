@@ -323,6 +323,7 @@
               <UModal
                 class="flex flex-col items-center"
                 title="Đánh giá sản phẩm"
+                description="Form cho phép người dùng gửi đánh giá sản phẩm"
                 :ui="{
                   overlay: 'bg-black/50',
                   content: 'bg-white text-black shadow-xl rounded-lg',
@@ -350,6 +351,7 @@
                       <label class="font-medium text-sm">Tên bạn:</label>
                       <input
                         type="text"
+                        v-model="name"
                         class="border border-gray-300 p-2 rounded w-full"
                         placeholder="Nhập tên của bạn"
                       />
@@ -357,6 +359,7 @@
                       <label class="font-medium text-sm mt-2">E-mail:</label>
                       <input
                         type="email"
+                        v-modal="email"
                         class="border border-gray-300 p-2 rounded w-full"
                         placeholder="Nhập email của bạn"
                       />
@@ -369,6 +372,7 @@
                       >
                       <textarea
                         rows="4"
+                        v-model="message"
                         class="w-full border border-gray-300 p-2 rounded resize-none"
                         placeholder="Nhập đánh giá hoặc bình luận của bạn"
                       ></textarea>
@@ -382,14 +386,13 @@
                       <div class="flex gap-1">
                         <span
                           v-for="n in 5"
+                          @click="rating = n"
                           :key="n"
                           class="text-2xl cursor-pointer"
                         >
                           <span
                             :class="
-                              n <= product.feedback.rating
-                                ? 'text-yellow-400'
-                                : 'text-gray-300'
+                              n <= rating ? 'text-yellow-400' : 'text-gray-300'
                             "
                           >
                             ★
@@ -642,11 +645,6 @@ const categoryName = [
   },
 ];
 
-const isOpen = ref(false);
-
-const submitReview = () => {
-  isOpen.value = false;
-};
 interface CartItem {
   name: string;
   quantity: number;
@@ -801,6 +799,53 @@ function useAuthStore() {
     loggedIn: false,
   };
 }
+
+import { $fetch } from "ofetch";
+
+const rating = ref(0);
+const name = ref("");
+const email = ref("");
+const message = ref("");
+const images = ref<File[]>([]);
+
+const submitReview = async () => {
+  try {
+    const reviewData = {
+      name: name.value,
+      email: email.value,
+      message: message.value,
+      rating: rating.value,
+      images: images.value,
+    };
+
+    console.log("Đánh giá:", reviewData);
+
+    const formData = new FormData();
+    formData.append("name", name.value);
+    formData.append("email", email.value);
+    formData.append("message", message.value);
+    formData.append("rating", rating.value.toString());
+    for (const file of images.value) {
+      formData.append("images", file);
+    }
+
+    await $fetch("/api/reviews", {
+      method: "POST",
+      body: formData,
+    });
+
+    alert("Đánh giá đã được gửi thành công!");
+    // Reset
+    name.value = "";
+    email.value = "";
+    message.value = "";
+    rating.value = 0;
+    images.value = [];
+  } catch (err) {
+    console.error("Lỗi gửi đánh giá:", err);
+    alert("Gửi thất bại. Vui lòng thử lại.");
+  }
+};
 </script>
 
 <style scoped></style>
