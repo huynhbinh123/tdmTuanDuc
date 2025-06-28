@@ -11,8 +11,13 @@ export default defineNuxtConfig({
     "@nuxtjs/i18n",
   ],
   i18n: {
-    locales: ["vi", "en"],
+    locales: [
+      { code: "vi", iso: "vi-VN", file: "vi.json", name: "Tiếng Việt" },
+      { code: "en", iso: "en-US", file: "en.json", name: "English" },
+    ],
     defaultLocale: "vi",
+    lazy: true,
+    langDir: "i18n/",
     vueI18n: "./i18n/i18n.config.ts",
   },
   css: ["~/assets/css/main.css"],
